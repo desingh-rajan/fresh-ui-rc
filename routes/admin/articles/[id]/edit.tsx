@@ -3,7 +3,7 @@
  * Uses generic form system
  */
 
-import { define } from "../../../../utils.ts";
+import { define } from "@/utils.ts";
 import { AdminLayout } from "@/components/layout/AdminLayout.tsx";
 import { GenericForm } from "@/components/admin/GenericForm.tsx";
 import { createCRUDHandlers } from "@/lib/admin/crud-handlers.ts";

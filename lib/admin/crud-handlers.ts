@@ -41,17 +41,32 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
           },
         };
       } catch (error) {
+        const errorStatus = (error as { status?: number })?.status;
+        const errorMessage = error instanceof Error ? error.message : String(error);
+
+        // 401 Unauthorized = No valid token → Clear cookie and redirect to login
         if (
-          error instanceof Error &&
-          (error.message.includes("Unauthorized") ||
-            error.message.includes("401"))
+          errorStatus === 401 ||
+          errorMessage.includes("Authentication failed") ||
+          errorMessage.includes("Invalid token") ||
+          errorMessage.includes("Token expired")
         ) {
+          const headers = new Headers();
+          // Clear the invalid token
+          headers.set(
+            "Set-Cookie",
+            "auth_token=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0",
+          );
+          headers.set("Location", "/auth/login");
+
           return new Response(null, {
             status: 303,
-            headers: { Location: "/auth/login" },
+            headers,
           });
         }
 
+        // 403 Forbidden = Insufficient permissions → Show error in UI
+        // Let the page render with error message (RBAC)
         console.error(`${config.name} list error:`, error);
         return {
           data: {
@@ -61,9 +76,10 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
               pagination: { page: 1, pageSize: 20, total: 0, totalPages: 0 },
             },
             config,
-            error: error instanceof Error
-              ? error.message
-              : `Failed to load ${config.pluralName}`,
+            error: errorStatus === 403
+              ? `Access Denied: You don't have permission to view ${config.pluralName}`
+              : (errorMessage || `Failed to load ${config.pluralName}`),
+            errorStatus,
           },
         };
       }
@@ -106,14 +122,40 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
 
         return { data: { item, config, error: undefined } };
       } catch (error) {
+        const errorStatus = (error as { status?: number })?.status;
+        const errorMessage = error instanceof Error ? error.message : String(error);
+
+        // 401 Unauthorized = No valid token → Clear cookie and redirect to login
+        if (
+          errorStatus === 401 ||
+          errorMessage.includes("Authentication failed") ||
+          errorMessage.includes("Invalid token") ||
+          errorMessage.includes("Token expired")
+        ) {
+          const headers = new Headers();
+          // Clear the invalid token
+          headers.set(
+            "Set-Cookie",
+            "auth_token=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0",
+          );
+          headers.set("Location", "/auth/login");
+
+          return new Response(null, {
+            status: 303,
+            headers,
+          });
+        }
+
+        // 403 Forbidden = Insufficient permissions → Show error in UI
         console.error(`${config.name} show error:`, error);
         return {
           data: {
             item: null,
-            error: error instanceof Error
-              ? error.message
-              : `Failed to load ${config.singularName}`,
+            error: errorStatus === 403
+              ? `Access Denied: You don't have permission to view this ${config.singularName}`
+              : (errorMessage || `Failed to load ${config.singularName}`),
             config,
+            errorStatus,
           },
         };
       }
@@ -218,8 +260,8 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
         const identifier = result && config.getRouteParam
           ? config.getRouteParam(result)
           : result
-          ? (result as Record<string, unknown>)?.[config.idField]
-          : null;
+            ? (result as Record<string, unknown>)?.[config.idField]
+            : null;
 
         if (identifier) {
           return new Response(null, {

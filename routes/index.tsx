@@ -1,13 +1,40 @@
 import { Head } from "fresh/runtime";
-import { define } from "../utils.ts";
-import ThemeSwitcher from "../islands/ThemeSwitcher.tsx";
+import { define } from "@/utils.ts";
+import ThemeSwitcher from "@/islands/ThemeSwitcher.tsx";
 
 export const handler = define.handlers({
   async GET(ctx) {
     // Check if user is already logged in
     const cookies = ctx.req.headers.get("cookie") || "";
     const authToken = cookies.match(/auth_token=([^;]+)/)?.[1];
-    return { data: { isLoggedIn: !!authToken } };
+
+    if (!authToken) {
+      return { data: { isLoggedIn: false } };
+    }
+
+    // Validate token by checking if it works
+    try {
+      const { createApiClient } = await import("@/lib/api.ts");
+      const apiClient = createApiClient(authToken);
+      // Try a simple API call to validate token
+      await apiClient.get("/auth/me");
+      return { data: { isLoggedIn: true } };
+    } catch {
+      // Token is invalid or expired - clear it!
+      const headers = new Headers();
+      headers.set(
+        "Set-Cookie",
+        "auth_token=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0",
+      );
+
+      return new Response(null, {
+        status: 303,
+        headers: {
+          ...Object.fromEntries(headers),
+          Location: ctx.req.url, // Reload same page (now without token)
+        },
+      });
+    }
   },
 });
 
@@ -137,7 +164,7 @@ export default define.page<typeof handler>(function Home({ data }) {
               ? (
                 <a
                   href="/admin/articles"
-                  class="btn btn-primary btn-lg text-base md:text-lg px-6 md:px-8"
+                  class="inline-flex items-center justify-center h-12 md:h-14 w-full md:w-auto rounded-xl bg-gradient-to-r from-violet-500 to-indigo-500 text-white font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-300 px-6 md:px-8 text-base md:text-lg"
                 >
                   View Admin Dashboard →
                 </a>
@@ -145,7 +172,7 @@ export default define.page<typeof handler>(function Home({ data }) {
               : (
                 <a
                   href="/auth/login"
-                  class="btn btn-primary btn-lg text-base md:text-lg px-6 md:px-8"
+                  class="inline-flex items-center justify-center h-12 md:h-14 w-full md:w-auto rounded-xl bg-gradient-to-r from-violet-500 to-indigo-500 text-white font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-300 px-6 md:px-8 text-base md:text-lg"
                 >
                   Sign In to Dashboard
                 </a>

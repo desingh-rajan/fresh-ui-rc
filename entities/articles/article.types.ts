@@ -7,12 +7,11 @@ export interface Article {
   id: number;
   title: string;
   slug: string;
-  content: string;
-  excerpt?: string;
-  featuredImage?: string;
-  status: "draft" | "published";
-  publishedAt?: string;
+  content?: string | null;
+  excerpt?: string | null;
+  isPublished: boolean;
   authorId: number;
+  authorName?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -21,20 +20,16 @@ export interface CreateArticleInput {
   title: string;
   slug: string;
   content: string;
-  excerpt?: string;
-  featuredImage?: string;
-  status: "draft" | "published";
-  publishedAt?: string;
+  excerpt?: string | null;
+  isPublished?: boolean;
 }
 
 export interface UpdateArticleInput {
   title?: string;
   slug?: string;
   content?: string;
-  excerpt?: string;
-  featuredImage?: string;
-  status?: "draft" | "published";
-  publishedAt?: string;
+  excerpt?: string | null;
+  isPublished?: boolean;
 }
 
 export interface ArticleListResponse {

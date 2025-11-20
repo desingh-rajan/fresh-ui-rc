@@ -5,16 +5,30 @@
 
 import type { EntityConfig, FieldConfig } from "@/lib/admin/types.ts";
 import { AdminLayout } from "@/components/layout/AdminLayout.tsx";
+import { AccessDenied } from "@/components/admin/AccessDenied.tsx";
 
 interface ShowPageProps<T = Record<string, unknown>> {
   config: EntityConfig<T>;
   item: T;
   error?: string;
+  errorStatus?: number;
 }
 
 export function ShowPage<T = Record<string, unknown>>(
-  { config, item, error }: ShowPageProps<T>,
+  { config, item, error, errorStatus }: ShowPageProps<T>,
 ) {
+  // 403 Forbidden - Show access denied page
+  if (errorStatus === 403) {
+    return (
+      <AdminLayout currentPath={`/admin/${config.name}`}>
+        <AccessDenied
+          message={error || `You don't have permission to view this ${config.singularName}`}
+          entityName={config.singularName}
+        />
+      </AdminLayout>
+    );
+  }
+
   // Check if item exists before accessing properties
   if (!item && !error) {
     return (

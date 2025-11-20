@@ -3,7 +3,7 @@
  * Uses generic ShowPage component
  */
 
-import { define } from "../../../utils.ts";
+import { define } from "@/utils.ts";
 import { ShowPage } from "@/components/admin/ShowPage.tsx";
 import { createCRUDHandlers } from "@/lib/admin/crud-handlers.ts";
 import { articleConfig } from "@/config/entities/articles.config.tsx";

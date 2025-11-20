@@ -2,7 +2,7 @@
  * Site Setting Edit Page - Uses generic form system
  */
 
-import { define } from "../../../../utils.ts";
+import { define } from "@/utils.ts";
 import { AdminLayout } from "@/components/layout/AdminLayout.tsx";
 import { GenericForm } from "@/components/admin/GenericForm.tsx";
 import { createCRUDHandlers } from "@/lib/admin/crud-handlers.ts";
@@ -58,8 +58,22 @@ export default define.page<typeof handler>(
           </div>
 
           {error && (
-            <div class="alert alert-error">
-              <span>{error}</span>
+            <div class="alert alert-error shadow-lg">
+              <div>
+                <span>{error}</span>
+              </div>
+              {errors && Object.keys(errors).length > 0 && (
+                <div class="mt-2 text-sm">
+                  <p class="font-semibold mb-1">Details:</p>
+                  <ul class="list-disc list-inside space-y-1">
+                    {Object.entries(errors).map(([field, message]) => (
+                      <li key={field}>
+                        <strong>{field || "Value"}:</strong> {message}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           )}
 

@@ -1,6 +1,7 @@
 /**
  * Generic Form Component
  * Generates forms dynamically based on entity configuration
+ * Professional styling with clear visual hierarchy
  */
 
 import type { EntityConfig, FieldConfig } from "@/lib/admin/types.ts";
@@ -24,31 +25,54 @@ export function GenericForm<T = Record<string, unknown>>(
     return undefined;
   };
 
+  const handleSubmit = (e: SubmitEvent) => {
+    const form = e.target as HTMLFormElement;
+
+    // Process JSON fields before submission
+    formFields.forEach((field) => {
+      if (field.type === "json") {
+        const textarea = form.querySelector(
+          `textarea[name="${field.name}"]`
+        ) as HTMLTextAreaElement | null;
+        if (textarea && textarea.value) {
+          try {
+            // Validate and re-stringify to ensure clean JSON
+            const parsed = JSON.parse(textarea.value);
+            textarea.value = JSON.stringify(parsed);
+          } catch (err) {
+            e.preventDefault();
+            alert(`Invalid JSON in ${field.label}: ${(err as Error).message}`);
+          }
+        }
+      }
+    });
+  };
+
+  const inputClasses = `w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder:text-gray-500 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all outline-none`;
+  const textareaClasses = `w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder:text-gray-500 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all outline-none resize-none`;
+  const selectClasses = `w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all outline-none cursor-pointer`;
+
   const renderField = (field: FieldConfig): JSX.Element => {
     const value = getValue(field.name);
     const error = errors?.[field.name];
-    const inputClasses = `input input-bordered ${error ? "input-error" : ""}`;
-    const textareaClasses = `textarea textarea-bordered ${error ? "textarea-error" : ""}`;
-    const selectClasses = `select select-bordered ${error ? "select-error" : ""}`;
+    const hasError = !!error;
 
     // ID field - readonly in edit mode
     if (isEdit && field.name === config.idField) {
       return (
-        <div class="form-control" key={field.name}>
-          <label class="label">
-            <span class="label-text">{field.label}</span>
+        <div key={field.name}>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">
+            {field.label}
           </label>
           <input
             type="text"
             value={String(value || "")}
             disabled
-            class="input input-bordered input-disabled"
+            class="w-full px-4 py-2.5 bg-gray-100 border border-gray-300 rounded-lg text-gray-500 cursor-not-allowed"
           />
-          <label class="label">
-            <span class="label-text-alt text-base-content/60">
-              {field.name === "id" ? "ID cannot be changed" : "Key cannot be changed"}
-            </span>
-          </label>
+          <p class="text-xs text-gray-500 mt-1.5">
+            {field.name === "id" ? "ID cannot be changed" : "Key cannot be changed"}
+          </p>
         </div>
       );
     }
@@ -56,50 +80,40 @@ export function GenericForm<T = Record<string, unknown>>(
     switch (field.type) {
       case "text":
         return (
-          <div class="form-control" key={field.name}>
-            <label class="label">
-              <span class="label-text">
-                {field.label}
-                {field.required && <span class="text-error ml-1">*</span>}
-              </span>
+          <div key={field.name}>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              {field.label}
+              {field.required && <span class="text-red-500 ml-1">*</span>}
             </label>
             <textarea
               name={field.name}
               required={field.required}
-              class={textareaClasses}
+              class={`${textareaClasses} ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
               placeholder={field.placeholder}
               rows={field.rows || 4}
             >
               {String(value || "")}
             </textarea>
             {error && (
-              <label class="label">
-                <span class="label-text-alt text-error">{error}</span>
-              </label>
+              <p class="text-xs text-red-500 mt-1.5">{error}</p>
             )}
             {field.helpText && !error && (
-              <label class="label">
-                <span class="label-text-alt text-base-content/60">
-                  {field.helpText}
-                </span>
-              </label>
+              <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}
           </div>
         );
 
       case "select":
         return (
-          <div class="form-control" key={field.name}>
-            <label class="label">
-              <span class="label-text">
-                {field.label}
-                {field.required && <span class="text-error ml-1">*</span>}
-              </span>
+          <div key={field.name}>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              {field.label}
+              {field.required && <span class="text-red-500 ml-1">*</span>}
             </label>
             <select
               name={field.name}
               required={field.required}
-              class={selectClasses}
+              class={`${selectClasses} ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
             >
               {!field.required && <option value="">-- Select --</option>}
               {field.options?.map((opt) => (
@@ -113,207 +127,150 @@ export function GenericForm<T = Record<string, unknown>>(
               ))}
             </select>
             {error && (
-              <label class="label">
-                <span class="label-text-alt text-error">{error}</span>
-              </label>
+              <p class="text-xs text-red-500 mt-1.5">{error}</p>
             )}
             {field.helpText && !error && (
-              <label class="label">
-                <span class="label-text-alt text-base-content/60">
-                  {field.helpText}
-                </span>
-              </label>
+              <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}
           </div>
         );
 
       case "boolean":
         return (
-          <div class="form-control" key={field.name}>
-            <label class="label cursor-pointer justify-start gap-4">
-              <input
-                type="checkbox"
-                name={field.name}
-                class="checkbox"
-                checked={Boolean(value)}
-              />
-              <span class="label-text">
-                {field.label}
-                {field.required && <span class="text-error ml-1">*</span>}
-              </span>
+          <div key={field.name} class="flex items-center gap-3">
+            <input
+              type="checkbox"
+              name={field.name}
+              class="w-5 h-5 border border-gray-300 rounded-md bg-white cursor-pointer accent-violet-500 checked:bg-violet-500"
+              checked={Boolean(value)}
+            />
+            <label class="text-sm font-semibold text-gray-700 cursor-pointer flex-1">
+              {field.label}
+              {field.required && <span class="text-red-500 ml-1">*</span>}
             </label>
             {error && (
-              <label class="label">
-                <span class="label-text-alt text-error">{error}</span>
-              </label>
-            )}
-            {field.helpText && !error && (
-              <label class="label">
-                <span class="label-text-alt text-base-content/60">
-                  {field.helpText}
-                </span>
-              </label>
+              <p class="text-xs text-red-500">{error}</p>
             )}
           </div>
         );
 
       case "number":
         return (
-          <div class="form-control" key={field.name}>
-            <label class="label">
-              <span class="label-text">
-                {field.label}
-                {field.required && <span class="text-error ml-1">*</span>}
-              </span>
+          <div key={field.name}>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              {field.label}
+              {field.required && <span class="text-red-500 ml-1">*</span>}
             </label>
             <input
               type="number"
               name={field.name}
               required={field.required}
-              class={inputClasses}
+              class={`${inputClasses} ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
               placeholder={field.placeholder}
               value={value !== null && value !== undefined ? String(value) : ""}
             />
             {error && (
-              <label class="label">
-                <span class="label-text-alt text-error">{error}</span>
-              </label>
+              <p class="text-xs text-red-500 mt-1.5">{error}</p>
             )}
             {field.helpText && !error && (
-              <label class="label">
-                <span class="label-text-alt text-base-content/60">
-                  {field.helpText}
-                </span>
-              </label>
+              <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}
           </div>
         );
 
       case "email":
         return (
-          <div class="form-control" key={field.name}>
-            <label class="label">
-              <span class="label-text">
-                {field.label}
-                {field.required && <span class="text-error ml-1">*</span>}
-              </span>
+          <div key={field.name}>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              {field.label}
+              {field.required && <span class="text-red-500 ml-1">*</span>}
             </label>
             <input
               type="email"
               name={field.name}
               required={field.required}
-              class={inputClasses}
+              class={`${inputClasses} ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
               placeholder={field.placeholder}
               value={String(value || "")}
             />
             {error && (
-              <label class="label">
-                <span class="label-text-alt text-error">{error}</span>
-              </label>
+              <p class="text-xs text-red-500 mt-1.5">{error}</p>
             )}
             {field.helpText && !error && (
-              <label class="label">
-                <span class="label-text-alt text-base-content/60">
-                  {field.helpText}
-                </span>
-              </label>
+              <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}
           </div>
         );
 
       case "date":
         return (
-          <div class="form-control" key={field.name}>
-            <label class="label">
-              <span class="label-text">
-                {field.label}
-                {field.required && <span class="text-error ml-1">*</span>}
-              </span>
+          <div key={field.name}>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              {field.label}
+              {field.required && <span class="text-red-500 ml-1">*</span>}
             </label>
             <input
               type="date"
               name={field.name}
               required={field.required}
-              class={inputClasses}
+              class={`${inputClasses} ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
               value={value ? new Date(value as string).toISOString().split("T")[0] : ""}
             />
             {error && (
-              <label class="label">
-                <span class="label-text-alt text-error">{error}</span>
-              </label>
+              <p class="text-xs text-red-500 mt-1.5">{error}</p>
             )}
             {field.helpText && !error && (
-              <label class="label">
-                <span class="label-text-alt text-base-content/60">
-                  {field.helpText}
-                </span>
-              </label>
+              <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}
           </div>
         );
 
       case "datetime":
         return (
-          <div class="form-control" key={field.name}>
-            <label class="label">
-              <span class="label-text">
-                {field.label}
-                {field.required && <span class="text-error ml-1">*</span>}
-              </span>
+          <div key={field.name}>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              {field.label}
+              {field.required && <span class="text-red-500 ml-1">*</span>}
             </label>
             <input
               type="datetime-local"
               name={field.name}
               required={field.required}
-              class={inputClasses}
+              class={`${inputClasses} ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
               value={value ? new Date(value as string).toISOString().slice(0, 16) : ""}
             />
             {error && (
-              <label class="label">
-                <span class="label-text-alt text-error">{error}</span>
-              </label>
+              <p class="text-xs text-red-500 mt-1.5">{error}</p>
             )}
             {field.helpText && !error && (
-              <label class="label">
-                <span class="label-text-alt text-base-content/60">
-                  {field.helpText}
-                </span>
-              </label>
+              <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}
           </div>
         );
 
       case "json":
         return (
-          <div class="form-control" key={field.name}>
-            <label class="label">
-              <span class="label-text">
-                {field.label}
-                {field.required && <span class="text-error ml-1">*</span>}
-              </span>
+          <div key={field.name}>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              {field.label}
+              {field.required && <span class="text-red-500 ml-1">*</span>}
             </label>
             <textarea
               name={field.name}
               required={field.required}
-              class={textareaClasses}
+              class={`${textareaClasses} font-mono text-sm ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
               placeholder={field.placeholder || "Enter valid JSON"}
-              rows={field.rows || 6}
+              rows={field.rows || 8}
             >
               {value && typeof value === "object"
                 ? JSON.stringify(value, null, 2)
                 : String(value || "")}
             </textarea>
             {error && (
-              <label class="label">
-                <span class="label-text-alt text-error">{error}</span>
-              </label>
+              <p class="text-xs text-red-500 mt-1.5">{error}</p>
             )}
             {field.helpText && !error && (
-              <label class="label">
-                <span class="label-text-alt text-base-content/60">
-                  {field.helpText}
-                </span>
-              </label>
+              <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}
           </div>
         );
@@ -321,32 +278,24 @@ export function GenericForm<T = Record<string, unknown>>(
       default:
         // Default to text input
         return (
-          <div class="form-control" key={field.name}>
-            <label class="label">
-              <span class="label-text">
-                {field.label}
-                {field.required && <span class="text-error ml-1">*</span>}
-              </span>
+          <div key={field.name}>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              {field.label}
+              {field.required && <span class="text-red-500 ml-1">*</span>}
             </label>
             <input
               type="text"
               name={field.name}
               required={field.required}
-              class={inputClasses}
+              class={`${inputClasses} ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
               placeholder={field.placeholder}
               value={String(value || "")}
             />
             {error && (
-              <label class="label">
-                <span class="label-text-alt text-error">{error}</span>
-              </label>
+              <p class="text-xs text-red-500 mt-1.5">{error}</p>
             )}
             {field.helpText && !error && (
-              <label class="label">
-                <span class="label-text-alt text-base-content/60">
-                  {field.helpText}
-                </span>
-              </label>
+              <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}
           </div>
         );
@@ -354,29 +303,22 @@ export function GenericForm<T = Record<string, unknown>>(
   };
 
   return (
-    <form method="POST" class="space-y-4">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {formFields.map((field) => {
-          const isFullWidth = field.type === "text" || field.type === "json";
-          return (
-            <div
-              key={field.name}
-              class={isFullWidth ? "md:col-span-2" : ""}
-            >
-              {renderField(field)}
-            </div>
-          );
-        })}
+    <form method="POST" class="space-y-6" onSubmit={handleSubmit}>
+      <div class="space-y-5">
+        {formFields.map((field) => renderField(field))}
       </div>
 
-      <div class="card-actions justify-end pt-4 border-t">
+      <div class="flex justify-end gap-3 pt-6 border-t border-gray-200">
         <a
           href={`/admin/${config.name}`}
-          class="btn btn-ghost"
+          class="px-6 py-2.5 text-gray-700 font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors"
         >
           Cancel
         </a>
-        <button type="submit" class="btn btn-primary">
+        <button
+          type="submit"
+          class="px-6 py-2.5 rounded-lg bg-gradient-to-r from-violet-500 to-indigo-500 text-white font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all"
+        >
           {isEdit ? "Save Changes" : `Create ${config.singularName}`}
         </button>
       </div>

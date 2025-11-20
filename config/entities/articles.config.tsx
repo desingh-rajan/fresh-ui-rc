@@ -73,22 +73,18 @@ export const articleConfig: EntityConfig<Article> = {
       placeholder: "Short summary of the article",
     },
     {
-      name: "status",
+      name: "isPublished",
       label: "Status",
-      type: "select",
-      required: true,
+      type: "boolean",
+      required: false,
       showInList: true,
       showInShow: true,
       showInForm: true,
-      options: [
-        { value: "draft", label: "Draft" },
-        { value: "published", label: "Published" },
-      ],
       render: (value) => {
-        const isDraft = value === "draft";
+        const isPublished = Boolean(value);
         return (
-          <span class={`badge ${isDraft ? "badge-warning" : "badge-success"}`}>
-            {String(value)}
+          <span class={`badge ${isPublished ? "badge-success" : "badge-warning"}`}>
+            {isPublished ? "Published" : "Draft"}
           </span>
         );
       },
@@ -98,14 +94,6 @@ export const articleConfig: EntityConfig<Article> = {
       label: "Author ID",
       type: "number",
       required: false,
-      showInList: true,
-      showInShow: true,
-      showInForm: false,
-    },
-    {
-      name: "publishedAt",
-      label: "Published At",
-      type: "datetime",
       showInList: true,
       showInShow: true,
       showInForm: false,

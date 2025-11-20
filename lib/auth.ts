@@ -153,3 +153,20 @@ export function isAdmin(): boolean {
   const user = getCurrentUser();
   return user?.role === "superadmin" || user?.role === "admin";
 }
+
+/**
+ * Validate auth token by making a test API call (server-side)
+ */
+export async function validateAuthToken(token: string): Promise<boolean> {
+  try {
+    const testClient = new (await import("./api.ts")).ApiClient(
+      undefined,
+      token,
+    );
+    // Try to fetch user profile or any authenticated endpoint
+    await testClient.get("/auth/me");
+    return true;
+  } catch {
+    return false;
+  }
+}

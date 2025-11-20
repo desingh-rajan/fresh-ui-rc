@@ -2,7 +2,7 @@
  * Site Setting Show Page - Uses generic ShowPage component
  */
 
-import { define } from "../../../utils.ts";
+import { define } from "@/utils.ts";
 import { ShowPage } from "@/components/admin/ShowPage.tsx";
 import { createCRUDHandlers } from "@/lib/admin/crud-handlers.ts";
 import { siteSettingConfig } from "@/config/entities/site-settings.config.tsx";

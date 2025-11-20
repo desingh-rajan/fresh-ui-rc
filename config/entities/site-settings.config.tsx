@@ -46,13 +46,13 @@ export const siteSettingConfig: EntityConfig<SiteSetting> = {
     {
       name: "value",
       label: "Value",
-      type: "text",
+      type: "json",
       required: true,
       showInList: true,
       showInShow: true,
       showInForm: true,
-      rows: 4,
-      placeholder: "Setting value",
+      rows: 6,
+      placeholder: "Enter valid JSON object",
       render: (value) => {
         if (typeof value === "object") {
           return (

@@ -9,12 +9,17 @@ export interface ApiError {
   errors?: Record<string, string[]>;
 }
 
+// Get API base URL from environment or default to localhost
+const API_BASE_URL = typeof Deno !== "undefined"
+  ? Deno.env.get("API_BASE_URL") || "http://localhost:8000"
+  : "http://localhost:8000";
+
 export class ApiClient {
   private baseUrl: string;
   private token: string | null;
 
   constructor(
-    baseUrl: string = "http://localhost:8000",
+    baseUrl: string = API_BASE_URL,
     token: string | null = null,
   ) {
     this.baseUrl = baseUrl;
@@ -127,5 +132,8 @@ export const apiClient = new ApiClient();
  * Create API client with specific token (for server-side use)
  */
 export function createApiClient(token: string | null): ApiClient {
-  return new ApiClient("http://localhost:8000", token);
+  return new ApiClient(API_BASE_URL, token);
 }
+
+// Export API_BASE_URL for use in other modules
+export { API_BASE_URL };
