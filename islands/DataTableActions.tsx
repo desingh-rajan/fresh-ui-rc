@@ -65,7 +65,7 @@ export default function DataTableActions(
       {canEdit && (
         <a
           href={`/admin/${entityName}/${identifier}/edit`}
-          class="btn btn-sm btn-ghost"
+          class="btn btn-sm btn-warning btn-ghost"
         >
           Edit
         </a>

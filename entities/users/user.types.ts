@@ -5,7 +5,7 @@
 
 export type UserRole = "superadmin" | "admin" | "moderator" | "user";
 
-export interface User {
+export interface User extends Record<string, unknown> {
   id: number;
   username?: string | null;
   email: string;

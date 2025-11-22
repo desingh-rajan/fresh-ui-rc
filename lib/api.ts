@@ -14,9 +14,10 @@ const API_BASE_URL = typeof Deno !== "undefined"
   ? Deno.env.get("API_BASE_URL") || "http://localhost:8000"
   : "http://localhost:8000";
 
-export class ApiClient {
+export class ApiClient implements Record<string, unknown> {
   private baseUrl: string;
   private token: string | null;
+  [key: string]: unknown;
 
   constructor(
     baseUrl: string = API_BASE_URL,

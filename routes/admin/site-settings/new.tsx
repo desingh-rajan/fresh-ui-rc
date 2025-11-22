@@ -7,6 +7,7 @@ import { AdminLayout } from "@/components/layout/AdminLayout.tsx";
 import { GenericForm } from "@/components/admin/GenericForm.tsx";
 import { createCRUDHandlers } from "@/lib/admin/crud-handlers.ts";
 import { siteSettingConfig } from "@/config/entities/site-settings.config.tsx";
+import type { EntityConfig } from "@/lib/admin/types.ts";
 
 const handlers = createCRUDHandlers(siteSettingConfig);
 
@@ -45,7 +46,7 @@ export default define.page<typeof handler>(
           <div class="card bg-base-100 shadow-xl">
             <div class="card-body">
               <GenericForm
-                config={config}
+                config={config as EntityConfig<unknown>}
                 item={values}
                 errors={errors}
                 isEdit={false}

@@ -6,15 +6,15 @@
 
 import type { EntityConfig, FieldConfig } from "@/lib/admin/types.ts";
 
-interface FormProps<T = Record<string, unknown>> {
-  config: EntityConfig<T>;
-  item?: T;
+interface FormProps {
+  config: EntityConfig<unknown>;
+  item?: Record<string, unknown>;
   errors?: Record<string, string>;
   isEdit?: boolean;
 }
 
-export function GenericForm<T = Record<string, unknown>>(
-  { config, item, errors, isEdit }: FormProps<T>,
+export function GenericForm(
+  { config, item, errors, isEdit }: FormProps,
 ) {
   const formFields = config.fields.filter((f) => f.showInForm !== false);
 

@@ -23,7 +23,7 @@ export const SETTING_CATEGORIES = {
 export type SettingCategory =
   typeof SETTING_CATEGORIES[keyof typeof SETTING_CATEGORIES];
 
-export interface SiteSetting {
+export interface SiteSetting extends Record<string, unknown> {
   id: number;
   key: string;
   category: SettingCategory;

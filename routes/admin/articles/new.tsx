@@ -8,6 +8,7 @@ import { AdminLayout } from "@/components/layout/AdminLayout.tsx";
 import { GenericForm } from "@/components/admin/GenericForm.tsx";
 import { createCRUDHandlers } from "@/lib/admin/crud-handlers.ts";
 import { articleConfig } from "@/config/entities/articles.config.tsx";
+import type { EntityConfig } from "@/lib/admin/types.ts";
 
 const handlers = createCRUDHandlers(articleConfig);
 
@@ -50,7 +51,7 @@ export default define.page<typeof handler>(
           <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
             <div class="p-8">
               <GenericForm
-                config={config}
+                config={config as EntityConfig<unknown>}
                 item={values}
                 errors={errors}
                 isEdit={false}

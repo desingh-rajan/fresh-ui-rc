@@ -4,23 +4,22 @@
  */
 
 import { apiClient } from "@/lib/api.ts";
+import type { HttpClient } from "@/lib/admin/types.ts";
 import type {
   Article,
   ArticleListResponse,
   BulkDeleteResponse,
-  CreateArticleInput,
   DeleteArticleResponse,
-  UpdateArticleInput,
 } from "./article.types.ts";
 
 export class ArticleService {
   private readonly basePath = "/ts-admin/articles";
-  private client = apiClient;
+  private client: HttpClient = apiClient;
 
   /**
    * Set API client with token (for server-side use)
    */
-  setClient(client: typeof apiClient): void {
+  setClient(client: HttpClient): void {
     this.client = client;
   }
 
@@ -53,7 +52,7 @@ export class ArticleService {
   /**
    * Get single article by ID
    */
-  getById(id: number): Promise<Article> {
+  getById(id: string | number): Promise<Article> {
     return this.client.get<Article>(
       `${this.basePath}/${id}`,
     );
@@ -62,7 +61,7 @@ export class ArticleService {
   /**
    * Create new article
    */
-  create(input: CreateArticleInput): Promise<Article> {
+  create(input: Partial<Article>): Promise<Article> {
     return this.client.post<Article>(
       this.basePath,
       input,
@@ -72,7 +71,7 @@ export class ArticleService {
   /**
    * Update existing article
    */
-  update(id: number, input: UpdateArticleInput): Promise<Article> {
+  update(id: string | number, input: Partial<Article>): Promise<Article> {
     return this.client.put<Article>(
       `${this.basePath}/${id}`,
       input,
@@ -82,8 +81,9 @@ export class ArticleService {
   /**
    * Delete single article
    */
-  async delete(id: number): Promise<void> {
-    await this.client.delete<DeleteArticleResponse>(`${this.basePath}/${id}`);
+  delete(id: string | number): Promise<void> {
+    return this.client.delete<DeleteArticleResponse>(`${this.basePath}/${id}`)
+      .then(() => undefined);
   }
 
   /**

@@ -4,22 +4,21 @@
  */
 
 import { apiClient } from "@/lib/api.ts";
+import type { HttpClient } from "@/lib/admin/types.ts";
 import type {
-  CreateUserInput,
   DeleteUserResponse,
-  UpdateUserInput,
   User,
   UserListResponse,
 } from "./user.types.ts";
 
 export class UserService {
   private readonly basePath = "/ts-admin/users";
-  private client = apiClient;
+  private client: HttpClient = apiClient;
 
   /**
    * Set API client with token (for server-side use)
    */
-  setClient(client: typeof apiClient): void {
+  setClient(client: HttpClient): void {
     this.client = client;
   }
 
@@ -48,7 +47,7 @@ export class UserService {
   /**
    * Get single user by ID
    */
-  getById(id: number): Promise<User> {
+  getById(id: string | number): Promise<User> {
     return this.client.get<User>(
       `${this.basePath}/${id}`,
     );
@@ -57,7 +56,7 @@ export class UserService {
   /**
    * Create new admin/moderator user
    */
-  create(input: CreateUserInput): Promise<User> {
+  create(input: Partial<User>): Promise<User> {
     return this.client.post<User>(
       this.basePath,
       input,
@@ -67,7 +66,7 @@ export class UserService {
   /**
    * Update existing user
    */
-  update(id: number, input: UpdateUserInput): Promise<User> {
+  update(id: string | number, input: Partial<User>): Promise<User> {
     return this.client.put<User>(
       `${this.basePath}/${id}`,
       input,
@@ -77,8 +76,9 @@ export class UserService {
   /**
    * Delete user
    */
-  async delete(id: number): Promise<void> {
-    await this.client.delete<DeleteUserResponse>(`${this.basePath}/${id}`);
+  delete(id: string | number): Promise<void> {
+    return this.client.delete<DeleteUserResponse>(`${this.basePath}/${id}`)
+      .then(() => undefined);
   }
 }
 

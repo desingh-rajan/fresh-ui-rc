@@ -83,17 +83,22 @@ export function AdminLayout({ children, currentPath }: AdminLayoutProps) {
           </div>
 
           <ul class="menu px-2">
-            {menuItems.map((item) => (
-              <li key={item.path}>
-                <a
-                  href={item.path}
-                  class={currentPath === item.path ? "active" : ""}
-                >
-                  <span class="text-xl">{item.icon}</span>
-                  {item.label}
-                </a>
-              </li>
-            ))}
+            {menuItems.map((item) => {
+              const isActive = currentPath === item.path;
+              return (
+                <li key={item.path}>
+                  <a
+                    href={item.path}
+                    class={isActive
+                      ? "bg-primary text-primary-content font-semibold"
+                      : "hover:bg-base-300"}
+                  >
+                    <span class="text-xl">{item.icon}</span>
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </aside>
       </div>

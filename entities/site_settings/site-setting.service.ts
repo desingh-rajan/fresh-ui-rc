@@ -4,23 +4,22 @@
  */
 
 import { apiClient } from "@/lib/api.ts";
+import type { HttpClient } from "@/lib/admin/types.ts";
 import type {
-  CreateSiteSettingInput,
   DeleteSiteSettingResponse,
   SettingCategory,
   SiteSetting,
   SiteSettingListResponse,
-  UpdateSiteSettingInput,
 } from "./site-setting.types.ts";
 
 export class SiteSettingService {
   private readonly basePath = "/ts-admin/site_settings";
-  private client = apiClient;
+  private client: HttpClient = apiClient;
 
   /**
    * Set API client with token (for server-side use)
    */
-  setClient(client: typeof apiClient): void {
+  setClient(client: HttpClient): void {
     this.client = client;
   }
 
@@ -53,7 +52,7 @@ export class SiteSettingService {
   /**
    * Get single site setting by ID
    */
-  getById(id: number): Promise<SiteSetting> {
+  getById(id: string | number): Promise<SiteSetting> {
     return this.client.get<SiteSetting>(
       `${this.basePath}/${id}`,
     );
@@ -62,7 +61,7 @@ export class SiteSettingService {
   /**
    * Create new site setting
    */
-  create(input: CreateSiteSettingInput): Promise<SiteSetting> {
+  create(input: Partial<SiteSetting>): Promise<SiteSetting> {
     return this.client.post<SiteSetting>(
       this.basePath,
       input,
@@ -73,8 +72,8 @@ export class SiteSettingService {
    * Update existing site setting by ID
    */
   update(
-    id: number,
-    input: UpdateSiteSettingInput,
+    id: string | number,
+    input: Partial<SiteSetting>,
   ): Promise<SiteSetting> {
     return this.client.put<SiteSetting>(
       `${this.basePath}/${id}`,
@@ -85,10 +84,10 @@ export class SiteSettingService {
   /**
    * Delete single site setting by ID
    */
-  async delete(id: number): Promise<void> {
-    await this.client.delete<DeleteSiteSettingResponse>(
+  delete(id: string | number): Promise<void> {
+    return this.client.delete<DeleteSiteSettingResponse>(
       `${this.basePath}/${id}`,
-    );
+    ).then(() => undefined);
   }
 }
 

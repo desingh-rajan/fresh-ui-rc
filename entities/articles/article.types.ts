@@ -3,7 +3,7 @@
  * Matches backend article.model.ts and article.dto.ts
  */
 
-export interface Article {
+export interface Article extends Record<string, unknown> {
   id: number;
   title: string;
   slug: string;

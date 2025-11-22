@@ -3,6 +3,20 @@
  * Similar to Rails ActiveAdmin resource configuration
  */
 
+import type { JSX } from "preact";
+
+/**
+ * HTTP Client interface for dependency injection
+ * Matches ApiClient interface but allows for different implementations
+ */
+export interface HttpClient extends Record<string, unknown> {
+  get<T>(path: string): Promise<T>;
+  post<T>(path: string, data?: unknown): Promise<T>;
+  put<T>(path: string, data: unknown): Promise<T>;
+  patch<T>(path: string, data: unknown): Promise<T>;
+  delete<T>(path: string): Promise<T>;
+}
+
 export type FieldType =
   | "string"
   | "number"
@@ -36,7 +50,7 @@ export interface FieldConfig {
   render?: (
     value: unknown,
     record: Record<string, unknown>,
-  ) => string | JSX.Element;
+  ) => string | JSX.Element | null;
 
   // Form options
   placeholder?: string;
@@ -71,7 +85,7 @@ export interface EntityConfig<T = Record<string, unknown>> {
     create: (data: Partial<T>) => Promise<T>;
     update: (id: number | string, data: Partial<T>) => Promise<T>;
     delete: (id: number | string) => Promise<void>;
-    setClient: (client: unknown) => void;
+    setClient: (client: HttpClient) => void;
   };
 
   // UI customization

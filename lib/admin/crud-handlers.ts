@@ -115,7 +115,7 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
         if (!item) {
           return {
             data: {
-              item: null,
+              item: undefined as unknown as T,
               error: `${config.singularName} not found`,
               config,
             },
@@ -154,7 +154,7 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
         console.error(`${config.name} show error:`, error);
         return {
           data: {
-            item: null,
+            item: undefined as unknown as T,
             error: errorStatus === 403
               ? `Access Denied: You don't have permission to view this ${config.singularName}`
               : (errorMessage || `Failed to load ${config.singularName}`),
@@ -177,7 +177,14 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
         });
       }
 
-      return { data: { config } };
+      return {
+        data: {
+          config,
+          error: undefined,
+          errors: {},
+          values: {},
+        },
+      };
     },
 
     // Create POST handler
@@ -251,6 +258,7 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
               config,
               errors,
               values: data,
+              error: undefined,
             },
           };
         }
@@ -313,6 +321,7 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
             error: error instanceof Error
               ? error.message
               : `Failed to create ${config.singularName}`,
+            errors: {},
             values,
           },
         };
@@ -347,7 +356,7 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
         if (!item) {
           return {
             data: {
-              item: null,
+              item: undefined as unknown as T,
               error: `${config.singularName} not found`,
               errors: {},
               config,
@@ -360,7 +369,7 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
         console.error(`${config.name} edit GET error:`, error);
         return {
           data: {
-            item: null,
+            item: undefined as unknown as T,
             error: error instanceof Error
               ? error.message
               : `Failed to load ${config.singularName}`,
