@@ -24,7 +24,7 @@ export interface ListResponse<T> {
 export class BaseService<T> {
   protected client: HttpClient = apiClient;
 
-  constructor(protected readonly basePath: string) { }
+  constructor(protected readonly basePath: string) {}
 
   setClient(client: HttpClient): void {
     this.client = client;
