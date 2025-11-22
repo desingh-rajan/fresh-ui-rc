@@ -1,13 +1,15 @@
 # Site Settings Type-Safe Configuration Guide
 
-**Status**: Reference documentation for using backend schemas in frontend  
+**Status**: Reference documentation for using backend schemas in frontend\
 **Last Updated**: November 20, 2025
 
 ---
 
 ## Overview
 
-The backend defines site settings schemas using Zod (`blog-v1/src/entities/site_settings/schemas/`). The frontend should leverage these schemas to:
+The backend defines site settings schemas using Zod
+(`blog-v1/src/entities/site_settings/schemas/`). The frontend should leverage
+these schemas to:
 
 1. **Auto-generate field configurations** - No manual field definition needed
 2. **Ensure type safety** - Match backend Zod types exactly
@@ -105,14 +107,14 @@ const siteSettingConfig: EntityConfig<SiteSetting> = {
     {
       name: "value",
       label: "Value",
-      type: "json",  // ← Works for any JSON object!
+      type: "json", // ← Works for any JSON object!
       rows: 6,
     },
   ],
 };
 ```
 
-**Pros**: ✅ Works perfectly for any backend schema  
+**Pros**: ✅ Works perfectly for any backend schema\
 **Cons**: ❌ Manual field mapping needed for each schema
 
 ---
@@ -153,7 +155,7 @@ export function zodToFieldConfig(
       required: !zodType.isOptional(),
     };
   }
-  
+
   if (zodType instanceof z.ZodBoolean) {
     return {
       name: fieldName,
@@ -162,7 +164,7 @@ export function zodToFieldConfig(
       required: !zodType.isOptional(),
     };
   }
-  
+
   if (zodType instanceof z.ZodNumber) {
     return {
       name: fieldName,
@@ -171,7 +173,7 @@ export function zodToFieldConfig(
       required: !zodType.isOptional(),
     };
   }
-  
+
   if (zodType instanceof z.ZodObject) {
     return {
       name: fieldName,
@@ -181,7 +183,7 @@ export function zodToFieldConfig(
       rows: 6,
     };
   }
-  
+
   // Fallback
   return {
     name: fieldName,
@@ -241,11 +243,15 @@ export const siteSettingConfigByKey = {
 
 The current solution is actually **superior** for the current use case:
 
-1. **Backend sends JSON value** - Site settings are stored as JSON in the database
-2. **Frontend shows JSON editor** - `type: "json"` renders a textarea with formatted JSON
-3. **Form validates JSON** - `handleSubmit()` validates before sending to backend
+1. **Backend sends JSON value** - Site settings are stored as JSON in the
+   database
+2. **Frontend shows JSON editor** - `type: "json"` renders a textarea with
+   formatted JSON
+3. **Form validates JSON** - `handleSubmit()` validates before sending to
+   backend
 4. **Backend validates against schema** - Backend Zod schema validates the JSON
-5. **Error feedback** - If backend validation fails, frontend shows detailed errors
+5. **Error feedback** - If backend validation fails, frontend shows detailed
+   errors
 
 **Flow**:
 
@@ -278,10 +284,12 @@ Frontend (Error Display)
 
 Move to schema-aware generation when:
 
-1. **UX requirement**: Need specialized UI per field (date picker, color picker, etc.)
+1. **UX requirement**: Need specialized UI per field (date picker, color picker,
+   etc.)
 2. **Validation preview**: Show validation errors before backend (client-side)
 3. **Nested forms**: Complex nested objects need individual field editors
-4. **Performance**: Many settings to load/render (current approach is fine for ~10-20)
+4. **Performance**: Many settings to load/render (current approach is fine for
+   ~10-20)
 
 ---
 
@@ -314,8 +322,8 @@ INSERT INTO site_settings VALUES
 
 ### General Category
 
-**site_info**: Site name, tagline, logo, favicon  
-**contact_info**: Email, phone, address, social media  
+**site_info**: Site name, tagline, logo, favicon\
+**contact_info**: Email, phone, address, social media\
 **api_config**: Rate limits, CORS settings (private)
 
 ### Appearance Category
@@ -324,7 +332,8 @@ INSERT INTO site_settings VALUES
 
 ### Features Category
 
-**feature_flags**: Boolean toggles for features (blog, newsletter, comments, etc.)
+**feature_flags**: Boolean toggles for features (blog, newsletter, comments,
+etc.)
 
 ### Email Category
 
@@ -381,8 +390,9 @@ INSERT INTO site_settings VALUES
 
 ## Summary
 
-**Current Status**: ✅ Perfect for dynamic JSON editing  
-**Why It Works**: Backend schemas provide validation layer  
+**Current Status**: ✅ Perfect for dynamic JSON editing\
+**Why It Works**: Backend schemas provide validation layer\
 **Future Direction**: Phase 2 for specialized UIs when needed
 
-The generic JSON approach is actually a feature, not a limitation—it allows admin users to edit any site setting without frontend deployment!
+The generic JSON approach is actually a feature, not a limitation—it allows
+admin users to edit any site setting without frontend deployment!

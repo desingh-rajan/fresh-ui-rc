@@ -28,7 +28,8 @@ export default define.page<typeof handler>(function ArticlesListPage({ data }) {
     return (
       <AdminLayout currentPath={`/admin/${config.name}`}>
         <AccessDenied
-          message={error || `You don't have permission to view ${config.pluralName}`}
+          message={error ||
+            `You don't have permission to view ${config.pluralName}`}
           entityName={config.pluralName}
         />
       </AdminLayout>

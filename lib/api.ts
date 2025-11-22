@@ -83,14 +83,14 @@ export class ApiClient {
   /**
    * GET request
    */
-  async get<T>(path: string): Promise<T> {
+  get<T>(path: string): Promise<T> {
     return this.request<T>(path, { method: "GET" });
   }
 
   /**
    * POST request
    */
-  async post<T>(path: string, data?: unknown): Promise<T> {
+  post<T>(path: string, data?: unknown): Promise<T> {
     return this.request<T>(path, {
       method: "POST",
       body: data ? JSON.stringify(data) : undefined,
@@ -100,7 +100,7 @@ export class ApiClient {
   /**
    * PUT request
    */
-  async put<T>(path: string, data: unknown): Promise<T> {
+  put<T>(path: string, data: unknown): Promise<T> {
     return this.request<T>(path, {
       method: "PUT",
       body: JSON.stringify(data),
@@ -110,7 +110,7 @@ export class ApiClient {
   /**
    * PATCH request
    */
-  async patch<T>(path: string, data: unknown): Promise<T> {
+  patch<T>(path: string, data: unknown): Promise<T> {
     return this.request<T>(path, {
       method: "PATCH",
       body: JSON.stringify(data),
@@ -120,7 +120,7 @@ export class ApiClient {
   /**
    * DELETE request
    */
-  async delete<T>(path: string): Promise<T> {
+  delete<T>(path: string): Promise<T> {
     return this.request<T>(path, { method: "DELETE" });
   }
 }

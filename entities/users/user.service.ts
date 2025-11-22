@@ -10,7 +10,6 @@ import type {
   UpdateUserInput,
   User,
   UserListResponse,
-  UserResponse,
 } from "./user.types.ts";
 
 export class UserService {
@@ -27,7 +26,7 @@ export class UserService {
   /**
    * List all users with pagination
    */
-  async list(params?: {
+  list(params?: {
     page?: number;
     limit?: number;
   }): Promise<UserListResponse> {
@@ -49,7 +48,7 @@ export class UserService {
   /**
    * Get single user by ID
    */
-  async getById(id: number): Promise<User> {
+  getById(id: number): Promise<User> {
     return this.client.get<User>(
       `${this.basePath}/${id}`,
     );
@@ -58,7 +57,7 @@ export class UserService {
   /**
    * Create new admin/moderator user
    */
-  async create(input: CreateUserInput): Promise<User> {
+  create(input: CreateUserInput): Promise<User> {
     return this.client.post<User>(
       this.basePath,
       input,
@@ -68,7 +67,7 @@ export class UserService {
   /**
    * Update existing user
    */
-  async update(id: number, input: UpdateUserInput): Promise<User> {
+  update(id: number, input: UpdateUserInput): Promise<User> {
     return this.client.put<User>(
       `${this.basePath}/${id}`,
       input,

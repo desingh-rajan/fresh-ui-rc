@@ -5,7 +5,7 @@
 This is a production-ready admin UI framework built with:
 
 - **Fresh 2.2.0** (Latest Deno framework)
-- **DaisyUI 5.5.5** (Tailwind component library)  
+- **DaisyUI 5.5.5** (Tailwind component library)
 - **Preact 10.27.2** (Fast 3kb React alternative)
 - **TypeScript** (Full type safety)
 
@@ -47,16 +47,16 @@ export const articleConfig: EntityConfig<Article> = {
   apiPath: "/ts-admin/articles",
   idField: "id",
   service: articleService,
-  
+
   fields: [
     {
       name: "title",
       label: "Title",
       type: "string",
       required: true,
-      showInList: true,    // Show in table
-      showInShow: true,    // Show in detail page
-      showInForm: true,    // Show in create/edit form
+      showInList: true, // Show in table
+      showInShow: true, // Show in detail page
+      showInForm: true, // Show in create/edit form
     },
     {
       name: "status",
@@ -131,7 +131,7 @@ export const postConfig: EntityConfig<Post> = {
   apiPath: "/ts-admin/posts",
   idField: "id",
   service: postService,
-  fields: [ /* define fields */ ],
+  fields: [/* define fields */],
 };
 ```
 
@@ -150,17 +150,17 @@ const handlers = createCRUDHandlers(postConfig);
 
 ## Supported Field Types
 
-| Type | UI Output | Form Input |
-|------|-----------|------------|
-| `string` | Text | `<input type="text">` |
-| `text` | Truncated/formatted | `<textarea>` |
-| `number` | Number | `<input type="number">` |
-| `boolean` | Badge (Yes/No) | `<checkbox>` |
-| `date` | Formatted date | `<input type="date">` |
-| `datetime` | Formatted datetime | `<input type="datetime-local">` |
-| `email` | Link | `<input type="email">` |
-| `select` | Badge/text | `<select>` with options |
-| `json` | Pretty JSON | `<textarea>` |
+| Type       | UI Output           | Form Input                      |
+| ---------- | ------------------- | ------------------------------- |
+| `string`   | Text                | `<input type="text">`           |
+| `text`     | Truncated/formatted | `<textarea>`                    |
+| `number`   | Number              | `<input type="number">`         |
+| `boolean`  | Badge (Yes/No)      | `<checkbox>`                    |
+| `date`     | Formatted date      | `<input type="date">`           |
+| `datetime` | Formatted datetime  | `<input type="datetime-local">` |
+| `email`    | Link                | `<input type="email">`          |
+| `select`   | Badge/text          | `<select>` with options         |
+| `json`     | Pretty JSON         | `<textarea>`                    |
 
 ## Features
 
@@ -222,8 +222,8 @@ blog-v1-ui/
 import { define } from "./utils.ts";
 
 export const handler = define.handlers({
-  async GET(ctx) { /* ... */ },
-  async POST(ctx) { /* ... */ },
+  async GET(ctx) {/* ... */},
+  async POST(ctx) {/* ... */},
 });
 
 export default define.page<typeof handler>(function Page({ data }) {
@@ -236,8 +236,8 @@ export default define.page<typeof handler>(function Page({ data }) {
 ```typescript
 // Don't use these!
 import { Handlers, PageProps } from "$fresh/server.ts";
-export const handler: Handlers<Data> = { /* ... */ };
-export default function Page(props: PageProps<Data>) { /* ... */ }
+export const handler: Handlers<Data> = {/* ... */};
+export default function Page(props: PageProps<Data>) {/* ... */}
 ```
 
 ## tstack-kit Integration
@@ -261,7 +261,7 @@ Expected response format:
 {
   "status": "success",
   "message": "...",
-  "data": { },
+  "data": {},
   "pagination": {
     "page": 1,
     "pageSize": 20,

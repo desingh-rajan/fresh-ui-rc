@@ -35,7 +35,8 @@ export const handler = define.handlers({
         const headers = new Headers();
         headers.set(
           "Set-Cookie",
-          `auth_token=${response.data.token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${7 * 24 * 60 * 60
+          `auth_token=${response.data.token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${
+            7 * 24 * 60 * 60
           }`,
         );
         headers.set("Location", "/");
@@ -95,7 +96,9 @@ export default define.page<typeof handler>(function LoginPage({ data }) {
           <form method="POST" class="space-y-5">
             <div class="form-control">
               <label class="label">
-                <span class="label-text font-semibold text-gray-700 text-sm">Email Address</span>
+                <span class="label-text font-semibold text-gray-700 text-sm">
+                  Email Address
+                </span>
               </label>
               <input
                 type="email"
@@ -109,7 +112,9 @@ export default define.page<typeof handler>(function LoginPage({ data }) {
 
             <div class="form-control">
               <label class="label">
-                <span class="label-text font-semibold text-gray-700 text-sm">Password</span>
+                <span class="label-text font-semibold text-gray-700 text-sm">
+                  Password
+                </span>
               </label>
               <input
                 type="password"
@@ -145,7 +150,10 @@ export default define.page<typeof handler>(function LoginPage({ data }) {
 
           <div class="text-center text-sm text-gray-500 mt-4">
             <p class="mb-1">Having issues logging in?</p>
-            <a href="/auth/clear-session" class="link link-primary text-xs font-medium hover:underline">
+            <a
+              href="/auth/clear-session"
+              class="link link-primary text-xs font-medium hover:underline"
+            >
               Clear session and try again
             </a>
           </div>

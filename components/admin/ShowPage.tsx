@@ -22,7 +22,8 @@ export function ShowPage<T = Record<string, unknown>>(
     return (
       <AdminLayout currentPath={`/admin/${config.name}`}>
         <AccessDenied
-          message={error || `You don't have permission to view this ${config.singularName}`}
+          message={error ||
+            `You don't have permission to view this ${config.singularName}`}
           entityName={config.singularName}
         />
       </AdminLayout>
@@ -59,7 +60,7 @@ export function ShowPage<T = Record<string, unknown>>(
   const formatValue = (
     field: FieldConfig,
     value: unknown,
-  ): string | JSX.Element => {
+  ) => {
     if (field.render) {
       return field.render(value, item as Record<string, unknown>);
     }

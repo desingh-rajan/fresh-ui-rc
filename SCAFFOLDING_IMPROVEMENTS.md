@@ -1,14 +1,15 @@
 # TStack Fresh UI Scaffolding Guide
 
-**Version**: 1.0  
-**Date**: November 20, 2025  
+**Version**: 1.0\
+**Date**: November 20, 2025\
 **Status**: ✅ Production Ready
 
 ---
 
 ## 🎯 Purpose
 
-Reference guide for `tstack scaffold` command to generate Rails ActiveAdmin-style CRUD interfaces for Fresh UI.
+Reference guide for `tstack scaffold` command to generate Rails
+ActiveAdmin-style CRUD interfaces for Fresh UI.
 
 ---
 
@@ -50,7 +51,8 @@ Already configured in `lib/api.ts`. No changes needed.
 ### 3. Authentication Error Handling (401 vs 403)
 
 - **401 Unauthorized** = No valid token → Redirect to `/auth/login`
-- **403 Forbidden** = Valid token but insufficient permissions → Show "Access Denied" component
+- **403 Forbidden** = Valid token but insufficient permissions → Show "Access
+  Denied" component
 
 Handled automatically by `createCRUDHandlers()`. No auth code needed in routes.
 
@@ -74,7 +76,7 @@ import { GenericForm } from "@/components/admin/GenericForm.tsx";
 import { articleConfig } from "@/config/entities/articles.config.tsx";
 
 // Auto-generates form from config
-<GenericForm config={articleConfig} item={article} isEdit={true} />
+<GenericForm config={articleConfig} item={article} isEdit={true} />;
 ```
 
 ---
@@ -123,15 +125,15 @@ Variable           Example
 
 Auto-detect from Drizzle schema and generate correct form field type:
 
-| Backend Type | Frontend Field Type | Config Example |
-|---|---|---|
-| `text('...')` (< 255 chars) | `"string"` | `type: "string"` |
-| `text('...')` (> 255 chars) | `"text"` | `type: "text", rows: 8` |
-| `integer(...)` | `"number"` | `type: "number"` |
-| `boolean(...)` | `"boolean"` | `type: "boolean"` |
-| `timestamp(...)` | `"datetime"` | `type: "datetime"` |
-| `varchar(..., { enum: [...] })` | `"select"` | `type: "select", options: [...]` |
-| `jsonb(...)` | `"json"` | `type: "json", rows: 8` |
+| Backend Type                    | Frontend Field Type | Config Example                   |
+| ------------------------------- | ------------------- | -------------------------------- |
+| `text('...')` (< 255 chars)     | `"string"`          | `type: "string"`                 |
+| `text('...')` (> 255 chars)     | `"text"`            | `type: "text", rows: 8`          |
+| `integer(...)`                  | `"number"`          | `type: "number"`                 |
+| `boolean(...)`                  | `"boolean"`         | `type: "boolean"`                |
+| `timestamp(...)`                | `"datetime"`        | `type: "datetime"`               |
+| `varchar(..., { enum: [...] })` | `"select"`          | `type: "select", options: [...]` |
+| `jsonb(...)`                    | `"json"`            | `type: "json", rows: 8`          |
 
 ---
 
@@ -413,8 +415,13 @@ Core implementation files to reference:
 
 ## 📝 Notes
 
-- **Field names**: Always use camelCase (backend uses snake_case in DB, but code uses camelCase)
-- **API responses**: Always return snake_case from backend, frontend automatically handles conversion
-- **Required fields**: Mark as `required: true` in config, backend validates with Zod
-- **Type mapping**: Frontend form types (string, text, number, etc.) must match backend field types
-- **Auth**: All routes protected automatically by CRUD handlers - no manual checks needed
+- **Field names**: Always use camelCase (backend uses snake_case in DB, but code
+  uses camelCase)
+- **API responses**: Always return snake_case from backend, frontend
+  automatically handles conversion
+- **Required fields**: Mark as `required: true` in config, backend validates
+  with Zod
+- **Type mapping**: Frontend form types (string, text, number, etc.) must match
+  backend field types
+- **Auth**: All routes protected automatically by CRUD handlers - no manual
+  checks needed

@@ -2,7 +2,8 @@
 
 ## Overview
 
-This is a **configuration-driven, Rails ActiveAdmin-style** CRUD system for Fresh 2.2.0. Define your entity once, get full CRUD for free.
+This is a **configuration-driven, Rails ActiveAdmin-style** CRUD system for
+Fresh 2.2.0. Define your entity once, get full CRUD for free.
 
 ## Core Philosophy
 
@@ -89,12 +90,12 @@ Reusable UI components that work for ANY entity:
 ```typescript
 export function createCRUDHandlers<T>(config: EntityConfig<T>) {
   return {
-    list: async (ctx) => { /* fetch paginated list */ },
-    show: async (ctx) => { /* fetch single record */ },
-    createGet: async (ctx) => { /* show create form */ },
-    createPost: async (ctx) => { /* handle create submission */ },
-    editGet: async (ctx) => { /* show edit form */ },
-    editPost: async (ctx) => { /* handle update */ },
+    list: async (ctx) => {/* fetch paginated list */},
+    show: async (ctx) => {/* fetch single record */},
+    createGet: async (ctx) => {/* show create form */},
+    createPost: async (ctx) => {/* handle create submission */},
+    editGet: async (ctx) => {/* show edit form */},
+    editPost: async (ctx) => {/* handle update */},
   };
 }
 ```
@@ -139,7 +140,11 @@ export const handler = define.handlers({
 export default define.page<typeof handler>(function CreatePage({ data }) {
   return (
     <AdminLayout>
-      <GenericForm config={data.config} item={data.values} errors={data.errors} />
+      <GenericForm
+        config={data.config}
+        item={data.values}
+        errors={data.errors}
+      />
     </AdminLayout>
   );
 });
@@ -156,7 +161,12 @@ export const handler = define.handlers({
 export default define.page<typeof handler>(function EditPage({ data }) {
   return (
     <AdminLayout>
-      <GenericForm config={data.config} item={data.item} errors={data.errors} isEdit />
+      <GenericForm
+        config={data.config}
+        item={data.item}
+        errors={data.errors}
+        isEdit
+      />
     </AdminLayout>
   );
 });
@@ -166,19 +176,19 @@ export default define.page<typeof handler>(function EditPage({ data }) {
 
 All field types are handled automatically:
 
-| Type | List View | Show View | Form Input |
-|------|-----------|-----------|------------|
-| `string` | Text | Text | `<input type="text">` |
-| `text` | Truncated | Pre-formatted | `<textarea>` |
-| `number` | Number | Number | `<input type="number">` |
-| `boolean` | Badge (Yes/No) | Badge | `<checkbox>` |
-| `date` | Formatted date | Formatted date | `<input type="date">` |
+| Type       | List View          | Show View          | Form Input                      |
+| ---------- | ------------------ | ------------------ | ------------------------------- |
+| `string`   | Text               | Text               | `<input type="text">`           |
+| `text`     | Truncated          | Pre-formatted      | `<textarea>`                    |
+| `number`   | Number             | Number             | `<input type="number">`         |
+| `boolean`  | Badge (Yes/No)     | Badge              | `<checkbox>`                    |
+| `date`     | Formatted date     | Formatted date     | `<input type="date">`           |
 | `datetime` | Formatted datetime | Formatted datetime | `<input type="datetime-local">` |
-| `email` | Text | Link | `<input type="email">` |
-| `select` | Value | Value | `<select>` with options |
-| `json` | Truncated JSON | Pretty JSON | `<textarea>` with JSON |
-| `status` | Colored badge | Colored badge | `<select>` |
-| `badge` | Outlined badge | Outlined badge | `<input>` |
+| `email`    | Text               | Link               | `<input type="email">`          |
+| `select`   | Value              | Value              | `<select>` with options         |
+| `json`     | Truncated JSON     | Pretty JSON        | `<textarea>` with JSON          |
+| `status`   | Colored badge      | Colored badge      | `<select>`                      |
+| `badge`    | Outlined badge     | Outlined badge     | `<input>`                       |
 
 ## Custom Rendering
 
@@ -238,7 +248,7 @@ export const postConfig: EntityConfig<Post> = {
   apiPath: "/ts-admin/posts",
   idField: "id",
   service: postService,
-  fields: [ /* ... */ ],
+  fields: [/* ... */],
 };
 ```
 
@@ -290,8 +300,8 @@ routes/admin/posts/[id]/edit.tsx     # Edit page
 import { define } from "../../utils.ts";
 
 export const handler = define.handlers({
-  async GET(ctx) { /* ... */ },
-  async POST(ctx) { /* ... */ },
+  async GET(ctx) {/* ... */},
+  async POST(ctx) {/* ... */},
 });
 
 export default define.page<typeof handler>(function MyPage({ data }) {
@@ -305,7 +315,7 @@ export default define.page<typeof handler>(function MyPage({ data }) {
 import { Handlers, PageProps } from "$fresh/server.ts";
 
 export const handler: Handlers<Data> = {
-  async GET(req, ctx) { /* ... */ },
+  async GET(req, ctx) {/* ... */},
 };
 
 export default function MyPage(props: PageProps<Data>) {

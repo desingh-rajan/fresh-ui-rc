@@ -67,7 +67,7 @@ export default define.page<typeof handler>(function UserEditPage({ data }) {
                 config={config}
                 item={item}
                 errors={errors}
-                isEdit={true}
+                isEdit
               />
             </div>
           </div>

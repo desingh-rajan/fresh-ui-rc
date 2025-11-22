@@ -24,8 +24,12 @@ export default function DataTableActions(
 ) {
   const handleDelete = async (e: Event) => {
     e.preventDefault();
-    
-    if (!confirm(`Are you sure you want to delete this ${singularName.toLowerCase()}?`)) {
+
+    if (
+      !confirm(
+        `Are you sure you want to delete this ${singularName.toLowerCase()}?`,
+      )
+    ) {
       return;
     }
 

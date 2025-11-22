@@ -10,7 +10,6 @@ import type {
   SettingCategory,
   SiteSetting,
   SiteSettingListResponse,
-  SiteSettingResponse,
   UpdateSiteSettingInput,
 } from "./site-setting.types.ts";
 
@@ -28,7 +27,7 @@ export class SiteSettingService {
   /**
    * List all site settings with pagination
    */
-  async list(params?: {
+  list(params?: {
     page?: number;
     pageSize?: number;
     category?: SettingCategory;
@@ -54,7 +53,7 @@ export class SiteSettingService {
   /**
    * Get single site setting by ID
    */
-  async getById(id: number): Promise<SiteSetting> {
+  getById(id: number): Promise<SiteSetting> {
     return this.client.get<SiteSetting>(
       `${this.basePath}/${id}`,
     );
@@ -63,7 +62,7 @@ export class SiteSettingService {
   /**
    * Create new site setting
    */
-  async create(input: CreateSiteSettingInput): Promise<SiteSetting> {
+  create(input: CreateSiteSettingInput): Promise<SiteSetting> {
     return this.client.post<SiteSetting>(
       this.basePath,
       input,
@@ -73,7 +72,7 @@ export class SiteSettingService {
   /**
    * Update existing site setting by ID
    */
-  async update(
+  update(
     id: number,
     input: UpdateSiteSettingInput,
   ): Promise<SiteSetting> {

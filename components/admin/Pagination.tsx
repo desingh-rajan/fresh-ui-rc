@@ -15,19 +15,19 @@ export function Pagination({ pagination, basePath }: PaginationProps) {
   }
 
   const { page, totalPages, total, pageSize } = pagination;
-  
+
   // Calculate page range to show
   const maxButtons = 7;
   let startPage = Math.max(1, page - Math.floor(maxButtons / 2));
-  let endPage = Math.min(totalPages, startPage + maxButtons - 1);
-  
+  const endPage = Math.min(totalPages, startPage + maxButtons - 1);
+
   if (endPage - startPage < maxButtons - 1) {
     startPage = Math.max(1, endPage - maxButtons + 1);
   }
 
   const pages = Array.from(
     { length: endPage - startPage + 1 },
-    (_, i) => startPage + i
+    (_, i) => startPage + i,
   );
 
   const start = (page - 1) * pageSize + 1;
@@ -49,7 +49,9 @@ export function Pagination({ pagination, basePath }: PaginationProps) {
               1
             </a>
             {startPage > 2 && (
-              <button class="join-item btn btn-sm btn-disabled">...</button>
+              <button type="button" class="join-item btn btn-sm btn-disabled">
+                ...
+              </button>
             )}
           </>
         )}
@@ -69,7 +71,9 @@ export function Pagination({ pagination, basePath }: PaginationProps) {
         {endPage < totalPages && (
           <>
             {endPage < totalPages - 1 && (
-              <button class="join-item btn btn-sm btn-disabled">...</button>
+              <button type="button" class="join-item btn btn-sm btn-disabled">
+                ...
+              </button>
             )}
             <a
               href={`${basePath}?page=${totalPages}`}
@@ -89,7 +93,11 @@ export function Pagination({ pagination, basePath }: PaginationProps) {
           value={pageSize}
           onChange={(e) => {
             const target = e.target as HTMLSelectElement;
-            window.location.href = `${basePath}?page=1&pageSize=${target.value}`;
+            if (typeof globalThis !== "undefined" && "location" in globalThis) {
+              (globalThis as typeof globalThis & {
+                location: { href: string };
+              }).location.href = `${basePath}?page=1&pageSize=${target.value}`;
+            }
           }}
         >
           <option value="10">10</option>

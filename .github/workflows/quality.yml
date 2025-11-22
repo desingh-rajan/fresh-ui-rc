@@ -1,0 +1,53 @@
+name: Code Quality Check
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  quality:
+    name: Format, Lint, Type Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: vx.x.x
+
+      - name: Format check
+        run: deno fmt --check .
+        continue-on-error: false
+
+      - name: Lint check
+        run: deno lint .
+        continue-on-error: false
+
+      - name: Type check
+        run: deno check
+        continue-on-error: false
+
+      - name: Check for React patterns
+        run: |
+          if grep -r "from.*['\"]react['\"]" --include="*.tsx" --include="*.ts" . 2>/dev/null; then
+            echo "❌ React imports found! Use Preact instead."
+            exit 1
+          fi
+          echo "✅ No React patterns detected"
+
+      - name: Check for JSX.Element function returns
+        run: |
+          if grep -r "): JSX\.Element" --include="*.tsx" . 2>/dev/null | grep -v "^.*types\.ts:"; then
+            echo "⚠️  JSX.Element return types found on functions. Consider letting TypeScript infer types."
+            echo "See DEVELOPMENT_STANDARDS.md for guidelines."
+          fi
+          echo "✅ Type annotation check complete"
+
+      - name: Success
+        if: success()
+        run: echo "✅ All quality checks passed!"

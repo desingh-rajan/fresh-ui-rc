@@ -2,7 +2,8 @@
 
 **Template for generating DRY, config-driven CRUD UI**
 
-This document defines the scaffolding pattern for `tstack ui-scaffold {entity}` command.
+This document defines the scaffolding pattern for `tstack ui-scaffold {entity}`
+command.
 
 ## Overview
 
@@ -151,28 +152,28 @@ export const {entity}Config: EntityConfig<{Entity}> = {
 
 ```typescript
 interface FieldConfig {
-  name: string;              // Field name in data
-  label: string;             // Display label
-  type: FieldType;           // Field type (see below)
+  name: string; // Field name in data
+  label: string; // Display label
+  type: FieldType; // Field type (see below)
 
   // Visibility
-  showInList?: boolean;      // Show in table (default: true)
-  showInShow?: boolean;      // Show in detail page (default: true)
-  showInForm?: boolean;      // Show in forms (default: true)
+  showInList?: boolean; // Show in table (default: true)
+  showInShow?: boolean; // Show in detail page (default: true)
+  showInForm?: boolean; // Show in forms (default: true)
 
   // Validation
-  required?: boolean;        // Required field
-  validate?: (value) => string | undefined;  // Custom validation
+  required?: boolean; // Required field
+  validate?: (value) => string | undefined; // Custom validation
 
   // Table features
-  sortable?: boolean;        // Can sort by this column
-  searchable?: boolean;      // Can search by this field
+  sortable?: boolean; // Can sort by this column
+  searchable?: boolean; // Can search by this field
 
   // Form options
-  placeholder?: string;      // Input placeholder
-  helpText?: string;         // Help text below input
-  rows?: number;             // Textarea rows (for type: "text")
-  options?: Array<{          // For type: "select"
+  placeholder?: string; // Input placeholder
+  helpText?: string; // Help text below input
+  rows?: number; // Textarea rows (for type: "text")
+  options?: Array<{ // For type: "select"
     value: string | number;
     label: string;
   }>;
@@ -489,13 +490,13 @@ export default define.page<typeof handler>(function {Entity}EditPage({ data }) {
 
 When scaffolding, replace these placeholders:
 
-| Placeholder | Example | Description |
-|-------------|---------|-------------|
-| `{entity}` | `post` | Lowercase singular (camelCase) |
-| `{Entity}` | `Post` | PascalCase singular |
-| `{entities}` | `posts` | Lowercase plural (camelCase) |
-| `{Entities}` | `Posts` | PascalCase plural |
-| `{ENTITIES}` | `POSTS` | Uppercase plural |
+| Placeholder  | Example | Description                    |
+| ------------ | ------- | ------------------------------ |
+| `{entity}`   | `post`  | Lowercase singular (camelCase) |
+| `{Entity}`   | `Post`  | PascalCase singular            |
+| `{entities}` | `posts` | Lowercase plural (camelCase)   |
+| `{Entities}` | `Posts` | PascalCase plural              |
+| `{ENTITIES}` | `POSTS` | Uppercase plural               |
 
 ## Key-based vs ID-based Routing
 
@@ -525,7 +526,8 @@ When scaffolding, replace these placeholders:
 
 ## Example: Complete Entity
 
-See `config/entities/articles.config.tsx` for a complete real-world example with:
+See `config/entities/articles.config.tsx` for a complete real-world example
+with:
 
 - Multiple field types
 - Custom rendering
@@ -552,4 +554,5 @@ After scaffolding, test:
 
 ---
 
-**This pattern is battle-tested and production-ready for tstack-kit scaffolding.**
+**This pattern is battle-tested and production-ready for tstack-kit
+scaffolding.**

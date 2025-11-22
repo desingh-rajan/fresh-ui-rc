@@ -12,12 +12,12 @@ export const userConfig: EntityConfig<User> = {
   pluralName: "Users",
   apiPath: "/ts-admin/users",
   idField: "id",
-  
+
   displayField: "email",
   descriptionField: "username",
-  
+
   service: userService,
-  
+
   fields: [
     {
       name: "id",
@@ -80,11 +80,9 @@ export const userConfig: EntityConfig<User> = {
       showInShow: true,
       showInForm: true,
       render: (value) =>
-        value ? (
-          <span class="badge badge-success">Active</span>
-        ) : (
-          <span class="badge badge-error">Inactive</span>
-        ),
+        value
+          ? <span class="badge badge-success">Active</span>
+          : <span class="badge badge-error">Inactive</span>,
     },
     {
       name: "isEmailVerified",
@@ -119,11 +117,11 @@ export const userConfig: EntityConfig<User> = {
       showInForm: false,
     },
   ],
-  
+
   canCreate: true,
   canEdit: true,
   canDelete: true,
   canView: true,
-  
+
   isSystemRecord: (record) => record.role === "superadmin",
 };

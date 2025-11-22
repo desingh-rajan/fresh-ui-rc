@@ -83,7 +83,9 @@ export const articleConfig: EntityConfig<Article> = {
       render: (value) => {
         const isPublished = Boolean(value);
         return (
-          <span class={`badge ${isPublished ? "badge-success" : "badge-warning"}`}>
+          <span
+            class={`badge ${isPublished ? "badge-success" : "badge-warning"}`}
+          >
             {isPublished ? "Published" : "Draft"}
           </span>
         );

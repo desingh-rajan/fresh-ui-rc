@@ -1,35 +1,44 @@
 # TStack Admin UI Improvement Roadmap
 
-**Inspired By**: Rails ActiveAdmin, React-Admin, Refine, AdminJS, Strapi  
-**Version**: 1.0  
-**Date**: November 21, 2025  
+**Inspired By**: Rails ActiveAdmin, React-Admin, Refine, AdminJS, Strapi\
+**Version**: 1.0\
+**Date**: November 21, 2025\
 **Status**: 🗺️ Future Roadmap for Enhancement
 
 ---
 
 ## ⚠️ Important Note: Admin Starter Kit Integration
 
-**ALL admin UI features require corresponding changes in the Admin Starter Kit** (`tstack-kit/packages/admin` and `tstack-kit/packages/starter`) because that's where we generate all the boilerplate for the backend routes (`/ts-admin/products`, `/ts-admin/articles`, etc.).
+**ALL admin UI features require corresponding changes in the Admin Starter Kit**
+(`tstack-kit/packages/admin` and `tstack-kit/packages/starter`) because that's
+where we generate all the boilerplate for the backend routes
+(`/ts-admin/products`, `/ts-admin/articles`, etc.).
 
 When implementing any feature from this roadmap:
 
-1. **Update tstack-kit packages** - Add templates and generators in `tstack-kit/packages/admin` and `tstack-kit/packages/starter` for the feature
-2. **Update Frontend Components** - Create/update UI components in blog-v1-ui (or Fresh UI template)
-3. **Test Full Flow** - Run `tstack scaffold` and verify the feature works end-to-end
+1. **Update tstack-kit packages** - Add templates and generators in
+   `tstack-kit/packages/admin` and `tstack-kit/packages/starter` for the feature
+2. **Update Frontend Components** - Create/update UI components in blog-v1-ui
+   (or Fresh UI template)
+3. **Test Full Flow** - Run `tstack scaffold` and verify the feature works
+   end-to-end
 
-This ensures `tstack scaffold` generates both backend AND frontend code for the feature, maintaining the full-stack developer experience.
+This ensures `tstack scaffold` generates both backend AND frontend code for the
+feature, maintaining the full-stack developer experience.
 
 ---
 
 ## 🎯 Vision
 
-Create a **Rails ActiveAdmin-equivalent** for TypeScript/Deno ecosystem that makes developer life as easy as:
+Create a **Rails ActiveAdmin-equivalent** for TypeScript/Deno ecosystem that
+makes developer life as easy as:
 
 ```bash
 tstack scaffold orders    # Generates full CRUD + advanced features
 ```
 
-Should work for simple CRUD apps → complex enterprise systems like Rails ActiveAdmin.
+Should work for simple CRUD apps → complex enterprise systems like Rails
+ActiveAdmin.
 
 ---
 
@@ -39,7 +48,8 @@ Should work for simple CRUD apps → complex enterprise systems like Rails Activ
 
 #### 2.1 Advanced Filtering & Search ⭐⭐⭐ (HIGH PRIORITY)
 
-**Rails ActiveAdmin Has**: Scopes, Advanced Filters, Range Filters, Multi-select Filters
+**Rails ActiveAdmin Has**: Scopes, Advanced Filters, Range Filters, Multi-select
+Filters
 
 **To Implement**:
 
@@ -100,10 +110,15 @@ Should work for simple CRUD apps → complex enterprise systems like Rails Activ
 ```typescript
 {
   batchActions: [
-    { name: "delete", label: "Delete Selected", icon: "trash", dangerous: true },
+    {
+      name: "delete",
+      label: "Delete Selected",
+      icon: "trash",
+      dangerous: true,
+    },
     { name: "archive", label: "Archive Selected", icon: "archive" },
     { name: "publish", label: "Publish Selected", icon: "send" },
-  ]
+  ];
 }
 ```
 
@@ -116,8 +131,10 @@ Should work for simple CRUD apps → complex enterprise systems like Rails Activ
 **To Implement**:
 
 - [ ] **Action Types**:
-  - **Collection actions** - Operate on list (e.g., "Import CSV", "Generate Report")
-  - **Member actions** - Operate on single record (e.g., "Send Email", "Archive")
+  - **Collection actions** - Operate on list (e.g., "Import CSV", "Generate
+    Report")
+  - **Member actions** - Operate on single record (e.g., "Send Email",
+    "Archive")
   - **Custom pages** - Full custom views linked from admin
 
 - [ ] **Action UI**:
@@ -145,9 +162,9 @@ Should work for simple CRUD apps → complex enterprise systems like Rails Activ
       formFields: [
         { name: "subject", type: "string", required: true },
         { name: "body", type: "text", required: true },
-      ]
-    }
-  ]
+      ],
+    },
+  ];
 }
 ```
 
@@ -157,7 +174,8 @@ Should work for simple CRUD apps → complex enterprise systems like Rails Activ
 
 #### 3.1 Enhanced DataTable with Advanced Features ⭐⭐⭐ (HIGH PRIORITY)
 
-**React-Admin Has**: Full-featured datagrid with sorting, resizing, freezing, virtualization
+**React-Admin Has**: Full-featured datagrid with sorting, resizing, freezing,
+virtualization
 
 **To Implement**:
 
@@ -725,28 +743,28 @@ interface AuditLog {
 
 ## 📊 Implementation Priority Matrix
 
-| Priority | Feature | Complexity | Impact | Timeline |
-|----------|---------|-----------|--------|----------|
-| 🔴 HIGH | Filtering & Search | Medium | Very High | Phase 2 |
-| 🔴 HIGH | Batch Operations | Medium | Very High | Phase 2 |
-| 🔴 HIGH | Custom Actions | Medium | High | Phase 2 |
-| 🔴 HIGH | Enhanced DataTable | High | Very High | Phase 3 |
-| 🔴 HIGH | Relationships | High | Very High | Phase 3 |
-| 🔴 HIGH | Export/Import | Medium | High | Phase 3 |
-| 🔴 HIGH | RBAC/ABAC | Medium | Very High | Phase 4 |
-| 🔴 HIGH | Audit Logging | Medium | High | Phase 5 |
-| 🔴 HIGH | Advanced Forms | Medium | High | Phase 6 |
-| 🔴 HIGH | Theme Customization | Low | Medium | Phase 6 |
-| 🟡 MEDIUM | Multi-Tenancy | High | Medium | Phase 4 |
-| 🟡 MEDIUM | Dashboard/Reports | Medium | Medium | Phase 5 |
-| 🟡 MEDIUM | Search & Commands | Low | Medium | Phase 6 |
-| 🟡 MEDIUM | Plugin System | High | Medium | Phase 7 |
-| 🟡 MEDIUM | Caching & Optimization | Medium | Medium | Phase 8 |
-| 🟡 MEDIUM | Real-time Updates | High | Medium | Phase 8 |
-| 🟡 MEDIUM | Mobile Support | Medium | Low | Phase 9 |
-| 🟡 MEDIUM | Accessibility | Low | Medium | Phase 9 |
-| 🟡 MEDIUM | SSO Integration | Medium | Low | Phase 10 |
-| 🟡 MEDIUM | Webhooks | Medium | Low | Phase 10 |
+| Priority  | Feature                | Complexity | Impact    | Timeline |
+| --------- | ---------------------- | ---------- | --------- | -------- |
+| 🔴 HIGH   | Filtering & Search     | Medium     | Very High | Phase 2  |
+| 🔴 HIGH   | Batch Operations       | Medium     | Very High | Phase 2  |
+| 🔴 HIGH   | Custom Actions         | Medium     | High      | Phase 2  |
+| 🔴 HIGH   | Enhanced DataTable     | High       | Very High | Phase 3  |
+| 🔴 HIGH   | Relationships          | High       | Very High | Phase 3  |
+| 🔴 HIGH   | Export/Import          | Medium     | High      | Phase 3  |
+| 🔴 HIGH   | RBAC/ABAC              | Medium     | Very High | Phase 4  |
+| 🔴 HIGH   | Audit Logging          | Medium     | High      | Phase 5  |
+| 🔴 HIGH   | Advanced Forms         | Medium     | High      | Phase 6  |
+| 🔴 HIGH   | Theme Customization    | Low        | Medium    | Phase 6  |
+| 🟡 MEDIUM | Multi-Tenancy          | High       | Medium    | Phase 4  |
+| 🟡 MEDIUM | Dashboard/Reports      | Medium     | Medium    | Phase 5  |
+| 🟡 MEDIUM | Search & Commands      | Low        | Medium    | Phase 6  |
+| 🟡 MEDIUM | Plugin System          | High       | Medium    | Phase 7  |
+| 🟡 MEDIUM | Caching & Optimization | Medium     | Medium    | Phase 8  |
+| 🟡 MEDIUM | Real-time Updates      | High       | Medium    | Phase 8  |
+| 🟡 MEDIUM | Mobile Support         | Medium     | Low       | Phase 9  |
+| 🟡 MEDIUM | Accessibility          | Low        | Medium    | Phase 9  |
+| 🟡 MEDIUM | SSO Integration        | Medium     | Low       | Phase 10 |
+| 🟡 MEDIUM | Webhooks               | Medium     | Low       | Phase 10 |
 
 ---
 
@@ -791,30 +809,30 @@ interface AuditLog {
 // All features should be configurable
 const orderConfig: EntityConfig<Order> = {
   // ... existing config
-  
+
   // NEW: Scopes (filtering presets)
   scopes: [
     { name: "active", label: "Active Orders", filter: { status: "pending" } },
-    { name: "completed", label: "Completed", filter: { status: "completed" } }
+    { name: "completed", label: "Completed", filter: { status: "completed" } },
   ],
-  
+
   // NEW: Batch actions
   batchActions: ["delete", "publish", "archive"],
-  
+
   // NEW: Custom actions
   memberActions: ["sendEmail", "refund"],
-  
+
   // NEW: RBAC
   permissions: {
     admin: ["*"],
     moderator: ["view", "edit"],
-    user: ["view"]
+    user: ["view"],
   },
-  
+
   // NEW: Export/Import
   exports: { csv: true, json: true },
-  imports: { csv: true }
-}
+  imports: { csv: true },
+};
 ```
 
 ### 2. **Plugin Architecture**
@@ -836,9 +854,9 @@ const adminConfig = {
     richTextEditorPlugin,
     stripePaymentPlugin,
     googleMapsPlugin,
-    slackNotificationPlugin
-  ]
-}
+    slackNotificationPlugin,
+  ],
+};
 ```
 
 ### 3. **Hook-Based Customization**
@@ -847,17 +865,17 @@ const adminConfig = {
 // Like Rails callbacks
 const hooks = {
   // Data hooks
-  onBeforeList: (params) => { /* modify query */ },
-  onAfterList: (data) => { /* process results */ },
-  
+  onBeforeList: (params) => {/* modify query */},
+  onAfterList: (data) => {/* process results */},
+
   // Action hooks
-  onBeforeCreate: (data) => { /* validate */ },
-  onAfterCreate: (data) => { /* send notification */ },
-  
+  onBeforeCreate: (data) => {/* validate */},
+  onAfterCreate: (data) => {/* send notification */},
+
   // UI hooks
-  onRenderField: (field) => { /* customize */ },
-  onRenderAction: (action) => { /* customize */ }
-}
+  onRenderField: (field) => {/* customize */},
+  onRenderAction: (action) => {/* customize */},
+};
 ```
 
 ---
@@ -866,19 +884,19 @@ const hooks = {
 
 ```json
 {
-  "@tanstack/react-query": "^5.x",        // Data fetching & caching
-  "@tanstack/react-table": "^8.x",        // Advanced table features
-  "react-hook-form": "^7.x",              // Form management
-  "zod": "^3.x",                          // Schema validation
-  "recharts": "^2.x",                     // Charts & visualizations
-  "lucide-react": "^x.x",                 // Icons
-  "sonner": "^x.x",                       // Toast notifications
-  "cmdk": "^x.x",                         // Command palette
-  "react-markdown": "^x.x",               // Markdown support
-  "@tiptap/react": "^2.x",                // Rich text editor
-  "date-fns": "^2.x",                     // Date utilities
-  "lodash-es": "^4.x",                    // Utilities
-  "zustand": "^4.x"                       // State management
+  "@tanstack/react-query": "^5.x", // Data fetching & caching
+  "@tanstack/react-table": "^8.x", // Advanced table features
+  "react-hook-form": "^7.x", // Form management
+  "zod": "^3.x", // Schema validation
+  "recharts": "^2.x", // Charts & visualizations
+  "lucide-react": "^x.x", // Icons
+  "sonner": "^x.x", // Toast notifications
+  "cmdk": "^x.x", // Command palette
+  "react-markdown": "^x.x", // Markdown support
+  "@tiptap/react": "^2.x", // Rich text editor
+  "date-fns": "^2.x", // Date utilities
+  "lodash-es": "^4.x", // Utilities
+  "zustand": "^4.x" // State management
 }
 ```
 
@@ -886,23 +904,23 @@ const hooks = {
 
 ## 🎓 Rails ActiveAdmin → TStack Mapping
 
-| Rails Feature | TStack Equivalent | Status |
-|---|---|---|
-| DSL Configuration | Entity Config Object | ✅ Implemented |
-| Scaffolding | `tstack scaffold` | ✅ Implemented |
-| Authentication | JWT + RBAC Handlers | ✅ Implemented |
-| Authorization | RBAC Config | ✅ Implemented |
-| CRUD Operations | createCRUDHandlers() | ✅ Implemented |
-| Scopes | Filter/Scope Config | 🚀 Phase 2 |
-| Filters | Filter UI Component | 🚀 Phase 2 |
-| Batch Actions | Batch Actions Config | 🚀 Phase 2 |
-| Custom Actions | Custom Actions Config | 🚀 Phase 2 |
-| Decorators | Field Renderers | 🚀 Phase 6 |
-| Forms | GenericForm Component | ✅ Implemented |
-| CSV Export | Export Feature | 🚀 Phase 3 |
-| Callbacks | Hooks System | 🚀 Phase 7 |
-| Concerns | Plugin System | 🚀 Phase 7 |
-| Dashboard | Admin Dashboard | 🚀 Phase 5 |
+| Rails Feature     | TStack Equivalent     | Status         |
+| ----------------- | --------------------- | -------------- |
+| DSL Configuration | Entity Config Object  | ✅ Implemented |
+| Scaffolding       | `tstack scaffold`     | ✅ Implemented |
+| Authentication    | JWT + RBAC Handlers   | ✅ Implemented |
+| Authorization     | RBAC Config           | ✅ Implemented |
+| CRUD Operations   | createCRUDHandlers()  | ✅ Implemented |
+| Scopes            | Filter/Scope Config   | 🚀 Phase 2     |
+| Filters           | Filter UI Component   | 🚀 Phase 2     |
+| Batch Actions     | Batch Actions Config  | 🚀 Phase 2     |
+| Custom Actions    | Custom Actions Config | 🚀 Phase 2     |
+| Decorators        | Field Renderers       | 🚀 Phase 6     |
+| Forms             | GenericForm Component | ✅ Implemented |
+| CSV Export        | Export Feature        | 🚀 Phase 3     |
+| Callbacks         | Hooks System          | 🚀 Phase 7     |
+| Concerns          | Plugin System         | 🚀 Phase 7     |
+| Dashboard         | Admin Dashboard       | 🚀 Phase 5     |
 
 ---
 
@@ -956,15 +974,16 @@ Phase 2 complete when:
 
 ## 📅 Estimated Timeline
 
-| Phase | Features | Effort | Timeline |
-|-------|----------|--------|----------|
+| Phase   | Features                                                             | Effort      | Timeline   |
+| ------- | -------------------------------------------------------------------- | ----------- | ---------- |
 | Phase 2 | Filters, Batch Ops, Actions, DataTable, Relationships, Import/Export | 200-250 hrs | 8-10 weeks |
-| Phase 3 | RBAC, Multi-Tenancy, Audit Logging | 150-200 hrs | 6-8 weeks |
-| Phase 4 | Forms, Search, Theme Customization | 100-150 hrs | 4-6 weeks |
-| Phase 5 | Plugin System, Code Gen, Docs | 150-200 hrs | 6-8 weeks |
-| Phase 6 | Real-time, Mobile, Accessibility | 150-200 hrs | 6-8 weeks |
+| Phase 3 | RBAC, Multi-Tenancy, Audit Logging                                   | 150-200 hrs | 6-8 weeks  |
+| Phase 4 | Forms, Search, Theme Customization                                   | 100-150 hrs | 4-6 weeks  |
+| Phase 5 | Plugin System, Code Gen, Docs                                        | 150-200 hrs | 6-8 weeks  |
+| Phase 6 | Real-time, Mobile, Accessibility                                     | 150-200 hrs | 6-8 weeks  |
 
-**Total Estimated**: 750-1000 hours (3-5 months with 1 full-time dev or 2-3 part-time devs)
+**Total Estimated**: 750-1000 hours (3-5 months with 1 full-time dev or 2-3
+part-time devs)
 
 ---
 
@@ -983,10 +1002,12 @@ Phase 2 complete when:
 
 ## 💡 Key Insight
 
-> "ActiveAdmin is powerful because it removes 90% of boilerplate for common admin tasks while still allowing 100% customization for edge cases."
+> "ActiveAdmin is powerful because it removes 90% of boilerplate for common
+> admin tasks while still allowing 100% customization for edge cases."
 
-**TStack should aim for this same sweet spot**: simple for 80% of use cases, powerful for enterprise needs.
+**TStack should aim for this same sweet spot**: simple for 80% of use cases,
+powerful for enterprise needs.
 
-**Not**: A low-code tool (too limiting)
-**Not**: A code generator alone (not maintainable)
-**Yes**: A framework that makes admin panels as easy as Rails routes + config
+**Not**: A low-code tool (too limiting) **Not**: A code generator alone (not
+maintainable) **Yes**: A framework that makes admin panels as easy as Rails
+routes + config

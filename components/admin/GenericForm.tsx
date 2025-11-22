@@ -32,7 +32,7 @@ export function GenericForm<T = Record<string, unknown>>(
     formFields.forEach((field) => {
       if (field.type === "json") {
         const textarea = form.querySelector(
-          `textarea[name="${field.name}"]`
+          `textarea[name="${field.name}"]`,
         ) as HTMLTextAreaElement | null;
         if (textarea && textarea.value) {
           try {
@@ -48,11 +48,14 @@ export function GenericForm<T = Record<string, unknown>>(
     });
   };
 
-  const inputClasses = `w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder:text-gray-500 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all outline-none`;
-  const textareaClasses = `w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder:text-gray-500 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all outline-none resize-none`;
-  const selectClasses = `w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all outline-none cursor-pointer`;
+  const inputClasses =
+    `w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder:text-gray-500 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all outline-none`;
+  const textareaClasses =
+    `w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder:text-gray-500 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all outline-none resize-none`;
+  const selectClasses =
+    `w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all outline-none cursor-pointer`;
 
-  const renderField = (field: FieldConfig): JSX.Element => {
+  const renderField = (field: FieldConfig) => {
     const value = getValue(field.name);
     const error = errors?.[field.name];
     const hasError = !!error;
@@ -71,7 +74,9 @@ export function GenericForm<T = Record<string, unknown>>(
             class="w-full px-4 py-2.5 bg-gray-100 border border-gray-300 rounded-lg text-gray-500 cursor-not-allowed"
           />
           <p class="text-xs text-gray-500 mt-1.5">
-            {field.name === "id" ? "ID cannot be changed" : "Key cannot be changed"}
+            {field.name === "id"
+              ? "ID cannot be changed"
+              : "Key cannot be changed"}
           </p>
         </div>
       );
@@ -88,15 +93,15 @@ export function GenericForm<T = Record<string, unknown>>(
             <textarea
               name={field.name}
               required={field.required}
-              class={`${textareaClasses} ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
+              class={`${textareaClasses} ${
+                hasError ? "border-red-500 focus:ring-red-100" : ""
+              }`}
               placeholder={field.placeholder}
               rows={field.rows || 4}
             >
               {String(value || "")}
             </textarea>
-            {error && (
-              <p class="text-xs text-red-500 mt-1.5">{error}</p>
-            )}
+            {error && <p class="text-xs text-red-500 mt-1.5">{error}</p>}
             {field.helpText && !error && (
               <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}
@@ -113,7 +118,9 @@ export function GenericForm<T = Record<string, unknown>>(
             <select
               name={field.name}
               required={field.required}
-              class={`${selectClasses} ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
+              class={`${selectClasses} ${
+                hasError ? "border-red-500 focus:ring-red-100" : ""
+              }`}
             >
               {!field.required && <option value="">-- Select --</option>}
               {field.options?.map((opt) => (
@@ -126,9 +133,7 @@ export function GenericForm<T = Record<string, unknown>>(
                 </option>
               ))}
             </select>
-            {error && (
-              <p class="text-xs text-red-500 mt-1.5">{error}</p>
-            )}
+            {error && <p class="text-xs text-red-500 mt-1.5">{error}</p>}
             {field.helpText && !error && (
               <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}
@@ -148,9 +153,7 @@ export function GenericForm<T = Record<string, unknown>>(
               {field.label}
               {field.required && <span class="text-red-500 ml-1">*</span>}
             </label>
-            {error && (
-              <p class="text-xs text-red-500">{error}</p>
-            )}
+            {error && <p class="text-xs text-red-500">{error}</p>}
           </div>
         );
 
@@ -165,13 +168,13 @@ export function GenericForm<T = Record<string, unknown>>(
               type="number"
               name={field.name}
               required={field.required}
-              class={`${inputClasses} ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
+              class={`${inputClasses} ${
+                hasError ? "border-red-500 focus:ring-red-100" : ""
+              }`}
               placeholder={field.placeholder}
               value={value !== null && value !== undefined ? String(value) : ""}
             />
-            {error && (
-              <p class="text-xs text-red-500 mt-1.5">{error}</p>
-            )}
+            {error && <p class="text-xs text-red-500 mt-1.5">{error}</p>}
             {field.helpText && !error && (
               <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}
@@ -189,13 +192,13 @@ export function GenericForm<T = Record<string, unknown>>(
               type="email"
               name={field.name}
               required={field.required}
-              class={`${inputClasses} ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
+              class={`${inputClasses} ${
+                hasError ? "border-red-500 focus:ring-red-100" : ""
+              }`}
               placeholder={field.placeholder}
               value={String(value || "")}
             />
-            {error && (
-              <p class="text-xs text-red-500 mt-1.5">{error}</p>
-            )}
+            {error && <p class="text-xs text-red-500 mt-1.5">{error}</p>}
             {field.helpText && !error && (
               <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}
@@ -213,12 +216,14 @@ export function GenericForm<T = Record<string, unknown>>(
               type="date"
               name={field.name}
               required={field.required}
-              class={`${inputClasses} ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
-              value={value ? new Date(value as string).toISOString().split("T")[0] : ""}
+              class={`${inputClasses} ${
+                hasError ? "border-red-500 focus:ring-red-100" : ""
+              }`}
+              value={value
+                ? new Date(value as string).toISOString().split("T")[0]
+                : ""}
             />
-            {error && (
-              <p class="text-xs text-red-500 mt-1.5">{error}</p>
-            )}
+            {error && <p class="text-xs text-red-500 mt-1.5">{error}</p>}
             {field.helpText && !error && (
               <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}
@@ -236,12 +241,14 @@ export function GenericForm<T = Record<string, unknown>>(
               type="datetime-local"
               name={field.name}
               required={field.required}
-              class={`${inputClasses} ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
-              value={value ? new Date(value as string).toISOString().slice(0, 16) : ""}
+              class={`${inputClasses} ${
+                hasError ? "border-red-500 focus:ring-red-100" : ""
+              }`}
+              value={value
+                ? new Date(value as string).toISOString().slice(0, 16)
+                : ""}
             />
-            {error && (
-              <p class="text-xs text-red-500 mt-1.5">{error}</p>
-            )}
+            {error && <p class="text-xs text-red-500 mt-1.5">{error}</p>}
             {field.helpText && !error && (
               <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}
@@ -258,7 +265,9 @@ export function GenericForm<T = Record<string, unknown>>(
             <textarea
               name={field.name}
               required={field.required}
-              class={`${textareaClasses} font-mono text-sm ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
+              class={`${textareaClasses} font-mono text-sm ${
+                hasError ? "border-red-500 focus:ring-red-100" : ""
+              }`}
               placeholder={field.placeholder || "Enter valid JSON"}
               rows={field.rows || 8}
             >
@@ -266,9 +275,7 @@ export function GenericForm<T = Record<string, unknown>>(
                 ? JSON.stringify(value, null, 2)
                 : String(value || "")}
             </textarea>
-            {error && (
-              <p class="text-xs text-red-500 mt-1.5">{error}</p>
-            )}
+            {error && <p class="text-xs text-red-500 mt-1.5">{error}</p>}
             {field.helpText && !error && (
               <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}
@@ -287,13 +294,13 @@ export function GenericForm<T = Record<string, unknown>>(
               type="text"
               name={field.name}
               required={field.required}
-              class={`${inputClasses} ${hasError ? "border-red-500 focus:ring-red-100" : ""}`}
+              class={`${inputClasses} ${
+                hasError ? "border-red-500 focus:ring-red-100" : ""
+              }`}
               placeholder={field.placeholder}
               value={String(value || "")}
             />
-            {error && (
-              <p class="text-xs text-red-500 mt-1.5">{error}</p>
-            )}
+            {error && <p class="text-xs text-red-500 mt-1.5">{error}</p>}
             {field.helpText && !error && (
               <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
             )}

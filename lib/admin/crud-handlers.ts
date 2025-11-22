@@ -3,7 +3,7 @@
  * Reusable handlers for list, show, create, edit, delete operations
  */
 
-import type { CRUDHandlerContext, EntityConfig } from "./types.ts";
+import type { EntityConfig } from "./types.ts";
 import { createApiClient } from "@/lib/api.ts";
 
 export function createCRUDHandlers<T = Record<string, unknown>>(
@@ -42,7 +42,9 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
         };
       } catch (error) {
         const errorStatus = (error as { status?: number })?.status;
-        const errorMessage = error instanceof Error ? error.message : String(error);
+        const errorMessage = error instanceof Error
+          ? error.message
+          : String(error);
 
         // 401 Unauthorized = No valid token → Clear cookie and redirect to login
         if (
@@ -123,7 +125,9 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
         return { data: { item, config, error: undefined } };
       } catch (error) {
         const errorStatus = (error as { status?: number })?.status;
-        const errorMessage = error instanceof Error ? error.message : String(error);
+        const errorMessage = error instanceof Error
+          ? error.message
+          : String(error);
 
         // 401 Unauthorized = No valid token → Clear cookie and redirect to login
         if (
@@ -162,7 +166,7 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
     },
 
     // Create GET handler
-    async createGet(ctx: { req: Request; params: Record<string, string> }) {
+    createGet(ctx: { req: Request; params: Record<string, string> }) {
       const cookies = ctx.req.headers.get("cookie") || "";
       const authToken = cookies.match(/auth_token=([^;]+)/)?.[1];
 
@@ -260,8 +264,8 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
         const identifier = result && config.getRouteParam
           ? config.getRouteParam(result)
           : result
-            ? (result as Record<string, unknown>)?.[config.idField]
-            : null;
+          ? (result as Record<string, unknown>)?.[config.idField]
+          : null;
 
         if (identifier) {
           return new Response(null, {

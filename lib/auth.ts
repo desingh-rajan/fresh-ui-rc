@@ -94,8 +94,9 @@ export async function login(
  */
 export function logout(): void {
   clearAuthToken();
-  if (typeof window !== "undefined") {
-    window.location.href = "/";
+  if (typeof globalThis !== "undefined" && "location" in globalThis) {
+    (globalThis as typeof globalThis & { location: { href: string } }).location
+      .href = "/";
   }
 }
 

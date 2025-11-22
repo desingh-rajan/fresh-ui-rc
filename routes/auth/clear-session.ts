@@ -7,7 +7,7 @@
 import { define } from "@/utils.ts";
 
 export const handler = define.handlers({
-  GET(ctx) {
+  GET(_ctx) {
     // Clear auth token cookie
     const headers = new Headers();
     headers.set(

@@ -2,7 +2,8 @@
 
 ## 🎯 Mission
 
-Adapt tstack-kit's backend entity conventions to Fresh framework for consistent full-stack Deno development.
+Adapt tstack-kit's backend entity conventions to Fresh framework for consistent
+full-stack Deno development.
 
 ## 📁 Backend Entity Structure (Current - tstack-kit)
 
@@ -191,13 +192,21 @@ Each entity has a service that talks to the backend API:
 ```typescript
 // entities/articles/article.service.ts
 import { apiClient } from "@/lib/api.ts";
-import type { Article, CreateArticleDTO, UpdateArticleDTO } from "./article.types.ts";
+import type {
+  Article,
+  CreateArticleDTO,
+  UpdateArticleDTO,
+} from "./article.types.ts";
 
 export class ArticleService {
   private static baseUrl = "/ts-admin/articles";
 
-  static async list(params?: { page?: number; limit?: number; search?: string }) {
-    return apiClient.get<{ data: Article[]; total: number }>(this.baseUrl, { params });
+  static async list(
+    params?: { page?: number; limit?: number; search?: string },
+  ) {
+    return apiClient.get<{ data: Article[]; total: number }>(this.baseUrl, {
+      params,
+    });
   }
 
   static async getById(id: number) {
@@ -294,12 +303,12 @@ export const handler = define.handlers({
     const article = await ArticleService.getById(id);
     return ctx.render({ article });
   },
-  
+
   async POST(ctx) {
     const id = parseInt(ctx.params.id);
     const formData = await ctx.req.formData();
     const data = Object.fromEntries(formData);
-    
+
     await ArticleService.update(id, data);
     return ctx.redirect("/admin/articles");
   },

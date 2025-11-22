@@ -31,7 +31,7 @@ export function DataTable<T = Record<string, unknown>>(
     field: FieldConfig,
     value: unknown,
     record: T,
-  ): string | JSX.Element => {
+  ) => {
     // Custom render function
     if (field.render) {
       return field.render(value, record as Record<string, unknown>);
@@ -70,13 +70,14 @@ export function DataTable<T = Record<string, unknown>>(
         }
         return String(value);
 
-      case "text":
+      case "text": {
         const text = String(value);
         return (
           <div class="max-w-xs truncate" title={text}>
             {text}
           </div>
         );
+      }
 
       default:
         if (field.format) {
