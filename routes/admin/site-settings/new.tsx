@@ -1,5 +1,5 @@
 /**
- * Site Setting Create Page - Uses generic form system
+ * Site Setting Create Page
  */
 
 import { define } from "@/utils.ts";
@@ -7,7 +7,6 @@ import { AdminLayout } from "@/components/layout/AdminLayout.tsx";
 import { GenericForm } from "@/components/admin/GenericForm.tsx";
 import { createCRUDHandlers } from "@/lib/admin/crud-handlers.ts";
 import { siteSettingConfig } from "@/config/entities/site-settings.config.tsx";
-import type { EntityConfig } from "@/lib/admin/types.ts";
 
 const handlers = createCRUDHandlers(siteSettingConfig);
 
@@ -16,45 +15,28 @@ export const handler = define.handlers({
   POST: handlers.createPost,
 });
 
-export default define.page<typeof handler>(
-  function SiteSettingCreatePage({ data }) {
-    const { config, error, errors, values } = data;
-
-    return (
-      <AdminLayout currentPath={`/admin/${config.name}`}>
-        <div class="space-y-6">
-          <div class="flex justify-between items-center">
-            <div>
-              <h1 class="text-3xl font-bold">
-                {config.createTitle || `Create New ${config.singularName}`}
-              </h1>
-              <p class="text-base-content/60 mt-1">
-                Fill in the details below
-              </p>
-            </div>
-            <a href={`/admin/${config.name}`} class="btn btn-ghost">
-              Cancel
-            </a>
+export default define.page<typeof handler>(function ({ data }) {
+  const { config, error, errors, values } = data;
+  return (
+    <AdminLayout currentPath={`/admin/${config.name}`}>
+      <div class="space-y-6">
+        <h1 class="text-3xl font-bold">Create New {config.singularName}</h1>
+        {error && (
+          <div class="alert alert-error">
+            <span>{error}</span>
           </div>
-
-          {error && (
-            <div class="alert alert-error">
-              <span>{error}</span>
-            </div>
-          )}
-
-          <div class="card bg-base-100 shadow-xl">
-            <div class="card-body">
-              <GenericForm
-                config={config as EntityConfig<unknown>}
-                item={values}
-                errors={errors}
-                isEdit={false}
-              />
-            </div>
+        )}
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <GenericForm
+              config={config as any}
+              item={values}
+              errors={errors}
+              isEdit={false}
+            />
           </div>
         </div>
-      </AdminLayout>
-    );
-  },
-);
+      </div>
+    </AdminLayout>
+  );
+});

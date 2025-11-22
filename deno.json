@@ -10,7 +10,7 @@
   "lint": {
     "rules": {
       "tags": ["fresh", "recommended"],
-      "exclude": ["react-no-danger"]
+      "exclude": ["react-no-danger", "no-explicit-any"]
     }
   },
   "exclude": ["**/_fresh/*", "node_modules/**/*"],

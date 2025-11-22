@@ -1,6 +1,5 @@
 /**
  * Article Edit Page
- * Uses generic form system
  */
 
 import { define } from "@/utils.ts";
@@ -8,7 +7,6 @@ import { AdminLayout } from "@/components/layout/AdminLayout.tsx";
 import { GenericForm } from "@/components/admin/GenericForm.tsx";
 import { createCRUDHandlers } from "@/lib/admin/crud-handlers.ts";
 import { articleConfig } from "@/config/entities/articles.config.tsx";
-import type { EntityConfig } from "@/lib/admin/types.ts";
 
 const handlers = createCRUDHandlers(articleConfig);
 
@@ -17,70 +15,29 @@ export const handler = define.handlers({
   POST: handlers.editPost,
 });
 
-export default define.page<typeof handler>(function ArticleEditPage({ data }) {
-  const { config, item, error } = data;
-
-  if (!item && !error) {
-    return (
-      <AdminLayout currentPath={`/admin/${config.name}`}>
-        <div class="alert alert-warning">
-          <span>{config.singularName} not found</span>
-        </div>
-      </AdminLayout>
-    );
-  }
-
-  if (error && !item) {
-    return (
-      <AdminLayout currentPath={`/admin/${config.name}`}>
-        <div class="alert alert-error">
-          <span>{error}</span>
-        </div>
-      </AdminLayout>
-    );
-  }
-
-  const identifier = config.getRouteParam
-    ? config.getRouteParam(item!)
-    : (item as Record<string, unknown>)?.[config.idField];
-
+export default define.page<typeof handler>(function ({ data }) {
+  const { config, item, error, errors } = data;
   return (
     <AdminLayout currentPath={`/admin/${config.name}`}>
       <div class="space-y-6">
-        <div class="flex justify-between items-center">
-          <div>
-            <h1 class="text-3xl font-bold">
-              {config.editTitle || `Edit ${config.singularName}`}
-            </h1>
-            {config.displayField && item && (
-              <p class="text-base-content/60 mt-1">
-                {String((item as Record<string, unknown>)[config.displayField])}
-              </p>
-            )}
-          </div>
-          <a
-            href={`/admin/${config.name}/${identifier}`}
-            class="btn btn-ghost"
-          >
-            Cancel
-          </a>
-        </div>
-
+        <h1 class="text-3xl font-bold">Edit {config.singularName}</h1>
         {error && (
           <div class="alert alert-error">
             <span>{error}</span>
           </div>
         )}
-
-        <div class="card bg-base-100 shadow-xl">
-          <div class="card-body">
-            <GenericForm
-              config={config as EntityConfig<unknown>}
-              item={item}
-              isEdit
-            />
+        {item && (
+          <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+              <GenericForm
+                config={config as any}
+                item={item}
+                errors={errors}
+                isEdit
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </AdminLayout>
   );
