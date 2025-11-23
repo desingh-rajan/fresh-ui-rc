@@ -25,6 +25,7 @@ export type FieldType =
   | "datetime"
   | "text"
   | "email"
+  | "password"
   | "select"
   | "json"
   | "status"

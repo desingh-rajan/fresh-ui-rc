@@ -205,6 +205,30 @@ export function GenericForm(
           </div>
         );
 
+      case "password":
+        return (
+          <div key={field.name}>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              {field.label}
+              {field.required && <span class="text-red-500 ml-1">*</span>}
+            </label>
+            <input
+              type="password"
+              name={field.name}
+              required={field.required}
+              class={`${inputClasses} ${
+                hasError ? "border-red-500 focus:ring-red-100" : ""
+              }`}
+              placeholder={field.placeholder}
+              value={String(value || "")}
+            />
+            {error && <p class="text-xs text-red-500 mt-1.5">{error}</p>}
+            {field.helpText && !error && (
+              <p class="text-xs text-gray-500 mt-1.5">{field.helpText}</p>
+            )}
+          </div>
+        );
+
       case "date":
         return (
           <div key={field.name}>

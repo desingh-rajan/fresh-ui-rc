@@ -199,9 +199,11 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
         });
       }
 
+      // deno-lint-ignore prefer-const
+      let data: Record<string, unknown> = {};
+
       try {
         const form = await ctx.req.formData();
-        const data: Record<string, unknown> = {};
 
         // Decode JWT token to get current user ID
         let currentUserId: number | null = null;
@@ -292,29 +294,7 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
       } catch (error) {
         console.error(`${config.name} create error:`, error);
 
-        // Re-extract form values to show them again
-        const form = await ctx.req.formData();
-        const values: Record<string, unknown> = {};
-
-        for (const field of config.fields) {
-          if (!field.showInForm) continue;
-          const value = form.get(field.name);
-
-          if (field.type === "boolean") {
-            values[field.name] = value === "on";
-          } else if (field.type === "number") {
-            values[field.name] = value ? parseInt(value as string) : null;
-          } else if (field.type === "json") {
-            try {
-              values[field.name] = value ? JSON.parse(value as string) : null;
-            } catch {
-              values[field.name] = value;
-            }
-          } else {
-            values[field.name] = value;
-          }
-        }
-
+        // Return error with data values for re-display
         return {
           data: {
             config,
@@ -322,7 +302,7 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
               ? error.message
               : `Failed to create ${config.singularName}`,
             errors: {},
-            values,
+            values: data, // Use the data object we already built
           },
         };
       }

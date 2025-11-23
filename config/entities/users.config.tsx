@@ -50,6 +50,16 @@ export const userConfig: EntityConfig<User> = {
       placeholder: "username",
     },
     {
+      name: "password",
+      label: "Password",
+      type: "password",
+      required: true,
+      showInList: false,
+      showInShow: false,
+      showInForm: true,
+      placeholder: "Enter password",
+    },
+    {
       name: "role",
       label: "Role",
       type: "select",
