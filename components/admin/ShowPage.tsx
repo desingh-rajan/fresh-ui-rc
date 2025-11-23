@@ -158,7 +158,7 @@ export function ShowPage<T = Record<string, unknown>>(
             {config.canEdit !== false && (
               <a
                 href={`/admin/${config.name}/${identifier}/edit`}
-                class="btn btn-primary"
+                class="btn btn-warning btn-ghost"
               >
                 Edit
               </a>
