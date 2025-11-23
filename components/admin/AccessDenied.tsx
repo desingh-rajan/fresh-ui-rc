@@ -70,11 +70,11 @@ export function AccessDenied({ message, entityName }: AccessDeniedProps) {
           </div>
 
           {/* Actions */}
-          <div class="card-actions flex-col sm:flex-row gap-2 mt-4">
-            <a href="/" class="btn btn-ghost">
+          <div class="card-actions flex-col sm:flex-row gap-2 mt-4 w-full">
+            <a href="/" class="btn btn-outline flex-1">
               Go to Homepage
             </a>
-            <a href="/admin/articles" class="btn btn-primary">
+            <a href="/admin/articles" class="btn btn-primary flex-1">
               Back to Dashboard
             </a>
           </div>

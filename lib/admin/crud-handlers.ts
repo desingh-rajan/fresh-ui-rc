@@ -6,6 +6,32 @@
 import type { EntityConfig } from "./types.ts";
 import { createApiClient } from "@/lib/api.ts";
 
+/**
+ * Extract error message from various error types
+ */
+function getErrorMessage(error: unknown): string {
+  if (!error) return "An error occurred";
+
+  // Check for ApiError structure (from api.ts)
+  if (typeof error === "object" && error !== null) {
+    const err = error as { message?: string; error?: string };
+    if (err.message) return err.message;
+    if (err.error) return err.error;
+  }
+
+  // Check for Error instance
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  // Fallback to string conversion (but avoid [object Object])
+  if (typeof error === "string") {
+    return error;
+  }
+
+  return "An error occurred";
+}
+
 export function createCRUDHandlers<T = Record<string, unknown>>(
   config: EntityConfig<T>,
 ) {
@@ -125,9 +151,7 @@ export function createCRUDHandlers<T = Record<string, unknown>>(
         return { data: { item, config, error: undefined } };
       } catch (error) {
         const errorStatus = (error as { status?: number })?.status;
-        const errorMessage = error instanceof Error
-          ? error.message
-          : String(error);
+        const errorMessage = getErrorMessage(error);
 
         // 401 Unauthorized = No valid token → Clear cookie and redirect to login
         if (

@@ -48,20 +48,70 @@ export function AdminLayout({ children, currentPath }: AdminLayoutProps) {
           <div class="flex-none gap-2">
             <ThemeSwitcher />
             <div class="dropdown dropdown-end">
-              <label
+              <div
                 tabIndex={0}
-                class="btn btn-ghost btn-circle avatar placeholder"
+                role="button"
+                class="btn btn-ghost btn-circle avatar"
               >
-                <div class="bg-neutral text-neutral-content rounded-full w-10">
-                  <span>A</span>
+                <div class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                  <div class="bg-gradient-to-br from-primary to-secondary flex items-center justify-center h-full">
+                    <span class="text-primary-content font-bold text-lg">
+                      A
+                    </span>
+                  </div>
                 </div>
-              </label>
+              </div>
               <ul
                 tabIndex={0}
-                class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow-lg border border-base-300 mt-3"
               >
+                <li class="menu-title">
+                  <span class="text-xs opacity-60">Account</span>
+                </li>
                 <li>
-                  <a href="/auth/logout">Logout</a>
+                  <a
+                    href="/admin/profile"
+                    class="gap-3 hover:bg-base-200 active:!bg-base-300"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
+                    </svg>
+                    Profile
+                  </a>
+                </li>
+                <div class="divider my-1"></div>
+                <li>
+                  <a
+                    href="/auth/logout"
+                    class="gap-3 text-error hover:bg-error/10 active:!bg-error/20"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                      />
+                    </svg>
+                    Logout
+                  </a>
                 </li>
               </ul>
             </div>
